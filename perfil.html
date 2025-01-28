@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>Dashboard - Tekscripts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            min-height: 100vh;
+            flex-direction: column;
+            text-align: center;
+            padding: 20px;
+            overflow-y: auto;
+            position: relative;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Contêiner de carregamento */
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            color: #fff;
+            font-size: 2em;
+        }
+
+        /* Animação de entrada em 3D */
+        @keyframes slideIn3D {
+            0% {
+                transform: translate3d(100%, 0, 0) rotateY(90deg);
+                opacity: 0;
+            }
+            100% {
+                transform: translate3d(0, 0, 0) rotateY(0deg);
+                opacity: 1;
+            }
+        }
+
+        /* Efeito de fade-in */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Contêiner superior */
+        .top-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            padding: 20px;
+            background-color: #1a1a1a; /* Preto acinzentado */
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+            animation: slideIn3D 1s ease-out forwards; /* Animação 3D */
+        }
+
+        .top-container img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            animation: fadeIn 2s ease-out; /* Animação fade-in */
+        }
+
+        .top-container h1 {
+            margin-top: 10px;
+            font-size: 2.8em;
+            color: #8e44ad; /* Roxo */
+            animation: fadeIn 2s ease-out; /* Animação fade-in */
+        }
+
+        .bio {
+            margin-top: 15px;
+            font-size: 1.1em;
+            color: #bbb; /* Branco suave */
+            max-width: 500px;
+            line-height: 1.6;
+            animation: fadeIn 2s ease-out; /* Animação fade-in */
+        }
+
+        /* Linha de borda a borda */
+        .line {
+            width: 100%;
+            height: 2px;
+            background-color: #8e44ad; /* Roxo */
+            margin: 30px 0;
+            animation: fadeIn 2s ease-out; /* Animação fade-in */
+        }
+
+        /* Contêiner dos botões */
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            justify-content: flex-start;
+            align-items: center;
+            width: 100%;
+            padding: 0 20px;
+            animation: fadeIn 2s ease-out; /* Animação fade-in */
+        }
+
+        .button {
+            background-color: #1a1a1a; /* Preto acinzentado */
+            border: none;
+            padding: 20px;
+            color: white;
+            font-size: 1.5em;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            width: 90%;
+            height: 250px;
+            position: relative;
+            animation: fadeIn 2s ease-out; /* Animação fade-in */
+        }
+
+        .button:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+            transform: translateY(-5px);
+        }
+
+        .button img {
+            width: 60px;
+            height: 60px;
+        }
+
+        /* Descrição que aparece ao passar o dedo */
+        .description {
+            display: none;
+            position: absolute;
+            bottom: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            width: 80%;
+            text-align: center;
+        }
+
+        .button:hover .description {
+            display: block;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .top-container h1 {
+                font-size: 2em;
+            }
+
+            .bio {
+                font-size: 1em;
+                max-width: 90%;
+            }
+
+            .button {
+                height: 200px;
+            }
+
+            .button img {
+                width: 150px;
+                height: 150px;
+                border-radius: 15px; /* Torna os cantos arredondados */
+            }
+
+            .description {
+                font-size: 1em;
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .top-container {
+                padding: 15px;
+            }
+
+            .button-container {
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Contêiner de carregamento -->
+    <div class="loading-overlay" id="loadingOverlay">
+        Carregando...
+    </div>
+
+   <!-- Contêiner inicial -->
+<div class="top-container">
+    <img src="https://raw.githubusercontent.com/kauam73/kauam/refs/heads/main/photos/Perfil.jpg" alt="Foto de Kauam">
+    <h1>Tekscripts</h1>
+    <p class="bio">
+        Olá, meu nome é <strong>Kauam</strong>, tenho 15 anos e minha jornada na programação começou de uma forma inesperada: por influência de uma garota. Embora tenha sido enganado, encontrei, no processo, minha verdadeira paixão – a programação. Desde então, esse tem sido meu foco, e estou determinado a continuar nessa trajetória.
+        <br><br>
+        <strong>Tekscripts</strong> é a nossa equipe dedicada à criação de scripts e automações que visam simplificar processos e trazer resultados impactantes.
+        <br><br>
+        Junte-se a nós e vamos explorar juntos as possibilidades de transformar ideias em soluções!
+    </p>
+</div>
+
+    <!-- Linha de borda -->
+    <div class="line"></div>
+
+    <!-- Contêiner dos botões -->
+    <div class="button-container">
+        <button class="button" onmouseover="showDescription(this)" onmouseout="hideDescription(this)" onclick="window.open('https://www.tiktok.com/@tekscriptss', '_blank')">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDFn9l-qVc9Ep7fJy4tD1bngRkSPk-y6S2dA&s" alt="TikTok">
+            <div class="description">segue nois lá pô 😔</div>
+        </button>
+
+        <button class="button" onmouseover="showDescription(this)" onmouseout="hideDescription(this)" onclick="window.open('https://youtube.com/@tekscripts', '_blank')">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5tBNFuyQfjkiDXZ4mTREmgrsLUbu0wv0s8w&s" alt="YouTube">
+            <div class="description">da laiki</div>
+        </button>
+
+        <button class="button" onmouseover="showDescription(this)" onmouseout="hideDescription(this)" onclick="window.open('https://discord.com/users/1070863400508338196', '_blank')">
+            <img src="https://raw.githubusercontent.com/kauam73/kauam/refs/heads/main/photos/Perfil.jpg" alt="Discord">
+            <div class="description">add no dc</div>
+        </button>
+
+        <button class="button" onmouseover="showDescription(this)" onmouseout="hideDescription(this)" onclick="window.open('https://discord.gg/eTEb4gzbdz', '_blank')">
+            <img src="https://img.icons8.com/m_outlined/200/FFFFFF/discord-logo.png" alt="Servidor Discord">
+            <div class="description">entra ai nosso servidor do Discord </div>
+        </button>
+    </div>
+
+   <!-- Linha de borda -->
+    <div class="line"></div>
+
+<div class="top-container">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdhizpI5Ytm7FpwC7nUnkwLGX8vTh9mORE4g&s" alt="Foto">
+        <h1>Tekscripts</h1>
+        <p class="bio">desenvolvedores do aplicativo</p>
+    </div>
+
+<!-- Linha de borda -->
+   <div class="line"></div>
+
+
+<!-- Contêiner dos botões -->
+<div class="button-container">
+    <button class="button" onmouseover="showDescription(this)" onmouseout="hideDescription(this)">
+        <img src="https://iili.io/2QqlOR1.gif" alt="kauam">
+        <div class="description">programador oficial | kauam | </div>
+    </button>
+
+    <button class="button" onmouseover="showDescription(this)" onmouseout="hideDescription(this)">
+        <img src="https://iili.io/2Qq0Dp1.gif" alt="reivison">
+        <div class="description">desenvolvedor Tester | Reivison |</div>
+    </button>
+</div>
+
+ <!-- Linha de borda -->
+    <div class="line"></div>
+
+
+<div class="top-container">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGX4AeYohzNgjuUuiGqJB_xJLNdmh1wr7Heg&s" alt="Foto">
+        <h1>Tekscripts</h1>
+        <p class="bio">linguagens utilizadas no aplicativo </p>
+    </div>
+
+<!-- Linha de borda -->
+   <div class="line"></div>
+
+<!-- Contêiner dos botões -->
+<div class="button-container">
+    <button class="button" onmouseover="showDescription(this)" onmouseout="hideDescription(this)">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdpsdo7L1gKRenSxqlXiBHDj8iQsLXBY_L5w&usqp=CAU" alt="html">
+        <div class="description">HTML línguagem de marcação</div>
+    </button>
+
+    <button class="button" onmouseover="showDescription(this)" onmouseout="hideDescription(this)">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuQg4b6cPQ_w1PjgvmVwqYreT9TZCBZuKHionH4TfqH5QrXY7jWOWvWhtC&s=10" alt="css">
+    <div class="description">CSS linguagem de estilos</div>
+</button>
+
+<button class="button" onmouseover="showDescription(this)" onmouseout="hideDescription(this)">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGgobtf1Pl2LaEyLFmutbSq2FD_bN8AXoydg5wAHBVAqVGUmEXB4EkBGbO&s=10" alt="javascript">
+    <div class="description">JavaScript linguagem de programação</div>
+</button>
+
+<button class="button" onmouseover="showDescription(this)" onmouseout="hideDescription(this)">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwluxXFIIAFsGysxhOdzsbxNbw_jX93brbdg&s" alt="java">
+    <div class="description">Java linguagem orientada a objeto foi pouca utilizada no aplicativo.</div>
+</button>
+
+<!-- Linha de borda -->
+   <div class="line"></div>
+
+<div class="top-container">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlZvJ7fS7RyF_Yoj7I5r_SUSf5L0evbZ4ufQ&usqp=CAU" alt="Foto">
+        <h1>Tekscripts</h1>
+        <p class="bio">créditos</p>
+    </div>
+
+<!-- Linha de borda -->
+   <div class="line"></div>
+
+<!-- Contêiner de créditos -->
+<div class="top-container">
+    <p class="bio">
+        Agradecimentos especiais a:<br>
+        <strong>Miko (Liandra)</strong> - Designer, por fornecer imagens e ideias fundamentais para o desenvolvimento do aplicativo.<br>
+        <strong>Reivison</strong> - Por sua valiosa contribuição na melhoria do aplicativo e colaboração em diversos projetos.<br>
+        <strong>Yasmin</strong> - Pelas sugestões de melhorias e ideias inovadoras que enriqueceram o projeto.<br>
+        <strong>Gabriel e Gustavo</strong> - Pelo esforço dedicado na área de divulgação do aplicativo.<br>
+        E um agradecimento geral a todos os membros da <strong>Tekscripts</strong> que contribuíram para o sucesso deste projeto.
+    </p>
+</div>
+
+<!-- Linha de borda -->
+   <div class="line"></div>
+
+    <script>
+    function showDescription(button) {
+        const description = button.querySelector('.description');
+        description.style.display = 'block';
+        setTimeout(() => {
+            description.style.display = 'none';
+        }, 5000);
+    }
+
+    function hideDescription(button) {
+        const description = button.querySelector('.description');
+        description.style.display = 'none';
+    }
+
+    window.onload = function() {
+        document.getElementById("loadingOverlay").style.display = "none";
+    };
+
+    // Bloquear zoom no desktop
+    document.addEventListener('wheel', function(e) {
+        if (e.ctrlKey) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+
+    // Bloquear zoom com teclas Ctrl +/+-
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey && (e.key === '+' || e.key === '-' || e.key === '='))) {
+            e.preventDefault();
+        }
+    });
+</script>
+
+</body>
+</html>
