@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TekScripts Test Search Scripts</title>
+    <style>
+        /* Tema Dark e estilo responsivo */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Cabeçalho */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #1e1e1e;
+            padding: 15px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .header button {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* Container de pesquisa */
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    max-width: 500px;
+    margin: 0 auto 30px; /* Centraliza e adiciona espaçamento inferior */
+}
+
+.search-container input {
+    padding: 15px;
+    border-radius: 25px;
+    border: 2px solid #555;
+    width: 100%; /* Ocupa 100% da largura do container */
+    background-color: #333;
+    color: #fff;
+    font-size: 18px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    transition: border-color 0.3s;
+}
+
+.search-container input:focus {
+    outline: none;
+    border-color: #007BFF;
+}
+
+/* Lista de scripts com animação */
+.scripts-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+    width: 90%;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto; /* Centraliza a lista */
+}
+
+.script-item {
+    background-color: #222;
+    margin: 10px;
+    padding: 15px;
+    border-radius: 12px;
+    width: 100%; /* Ocupa toda a largura disponível */
+    max-width: 500px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    transition: background-color 0.3s;
+}
+
+.script-item:hover {
+    background-color: #444;
+}
+
+    /* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #282828;
+    padding: 40px 30px;
+    border-radius: 16px;
+    max-width: 400px;
+    width: 95%;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    overflow: hidden;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Texto do modal (textarea) */
+.modal textarea {
+    width: 90%;
+    height: 40px;
+    border-radius: 10px;
+    padding: 15px;
+    background-color: #333;
+    color: #f5f5f5;
+    border: 1px solid #444;
+    font-size: 14px;
+    font-family: 'Courier New', Courier, monospace;
+    resize: none;
+    transition: border-color 0.3s ease;
+}
+
+.modal textarea:focus {
+    border-color: #007bff;
+}
+
+/* Botão de copiar */
+.modal button {
+    background-color: #007bff;
+    border: none;
+    padding: 15px 30px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.modal button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Botão de fechar */
+.close-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 35px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px; /* Ajuste do top para afastar o botão do conteúdo */
+    right: 10px; /* Ajuste para a posição direita */
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+    color: #f44336;
+}
+
+.close-btn:hover {
+    color: #f44336; /* cor de destaque no hover */
+}
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 18px;
+            }
+            .search-container input {
+                width: 80%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 16px;
+            }
+            .search-container input {
+                width: 70%;
+            }
+        }
+
+        /* Animação de fade-in */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>TekScripts Test Search Scripts</h1>
+        <button onclick="window.location.href='perfil.html'">X</button>
+    </div>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Pesquisar scripts...    os conteúdos estão limitados!" oninput="filterScripts()">
+    </div>
+
+    <div class="scripts-list" id="scriptsList">
+        <!-- Scripts serão carregados aqui -->
+    </div>
+
+    <!-- Modal para mostrar e copiar o script -->
+    <div class="modal" id="scriptModal">
+        <button class="close-btn" onclick="closeModal()">×</button>
+        <textarea id="scriptContent" readonly></textarea>
+        <button onclick="copyToClipboard()">Copiar Script</button>
+    </div>
+
+    <script>
+    const scriptsUrl = "https://raw.githubusercontent.com/DATEDATEDATEDATEDATE/DATEDATEDATEDATEDATEDATWDARWDATEDATEDATEDATE/refs/heads/main/scripts.json";
+    const maxSearches = 30;
+    const redirectUrl = "https://discord.gg/eTEb4gzbdz"; // URL para onde o usuário será redirecionado após o limite
+    const appDownloadUrl = "https://download937.mediafire.com/zhzehyrnexigfaCZp7foW9uXddpuOg5_Tp4TolUe5BxZ5KqFf-zmFdPB8sUYGTDpVMxSXi1jefXJiR3bcf8cInkRhZ9FVw_pr9vlu_UqCDGRAD3GHi-rdrFoBMU0WSXjFgbLIlCEzzl5PIQTiWcYpUojnq7bXlxj0HU0WeIWg3Oj/d9nh2cyarfdvd5f/Tokyo.apk"; // URL para baixar o app
+    const searchTimeLimit = 60000; // 1 minuto de intervalo entre pesquisas (em milissegundos)
+
+    let searchCount = localStorage.getItem('searchCount') ? parseInt(localStorage.getItem('searchCount')) : 0;
+    let lastSearchTime = localStorage.getItem('lastSearchTime') ? parseInt(localStorage.getItem('lastSearchTime')) : 0;
+    let searchLimitReached = localStorage.getItem('searchLimitReached') === 'true';
+    let isRedirecting = false; // Garantir que o redirecionamento aconteça uma única vez
+
+    // Função para carregar os scripts
+    async function fetchScripts() {
+        try {
+            const response = await fetch(scriptsUrl);
+            const data = await response.json();
+            window.scriptsData = data.slice(0, 20); // Limita a exibição inicial a 20 itens
+
+            // Verifica se o limite de pesquisa foi atingido ao carregar a página
+            if (searchLimitReached) {
+                // Altera o conteúdo dos scripts para "Limite atingido"
+                window.scriptsData.forEach(script => {
+                    script.script = "Limite atingido";
+                    script.conteudo = "Limite atingido";
+                });
+                displayScripts(window.scriptsData); // Atualiza a exibição com o novo conteúdo
+                showNotification("Você atingiu o limite de pesquisas diárias. Instale o app para acesso ilimitado.", "warning");
+                redirectToApp();
+            } else {
+                displayScripts(window.scriptsData);
+            }
+        } catch (error) {
+            console.error("Erro ao buscar scripts:", error);
+        }
+    }
+
+    // Função para filtrar os scripts com a pesquisa do usuário
+    function filterScripts() {
+        const currentTime = new Date().getTime();
+
+        // Verifica se o limite de pesquisa foi atingido
+        if (searchLimitReached) {
+            // Altera o conteúdo dos scripts para "Limite atingido"
+            window.scriptsData.forEach(script => {
+                script.script = "Limite atingido";
+                script.conteudo = "Limite atingido";
+            });
+            displayScripts(window.scriptsData); // Atualiza a exibição com o novo conteúdo
+            showNotification("Você atingiu o limite de pesquisas diárias. Instale o app para acesso ilimitado.", "warning");
+            redirectToApp();
+            return;
+        }
+
+        // Verifica o intervalo entre pesquisas
+        if (currentTime - lastSearchTime < searchTimeLimit) {
+            const timeRemaining = (searchTimeLimit - (currentTime - lastSearchTime)) / 1000;
+            showNotification(`Aguarde ${Math.ceil(timeRemaining)} segundos antes de realizar outra pesquisa.`, "info");
+            return;
+        }
+
+        const searchQuery = document.getElementById('searchInput').value.trim();
+
+        if (searchQuery.length === 0) {
+            showNotification("Por favor, insira um termo de pesquisa válido.", "info");
+            return;
+        }
+
+        const filteredScripts = window.scriptsData.filter(script => script.script.toLowerCase().includes(searchQuery.toLowerCase()));
+        displayScripts(filteredScripts);
+
+        // Atualiza contagem de pesquisas
+        searchCount++;
+        localStorage.setItem('searchCount', searchCount);
+        localStorage.setItem('lastSearchTime', currentTime);
+
+        if (searchCount >= maxSearches) {
+            localStorage.setItem('searchLimitReached', 'true');
+            showNotification("Você atingiu o limite de pesquisas diárias. Você será redirecionado.", "error");
+            redirectToApp();
+        }
+    }
+
+    // Exibe os scripts na interface
+    function displayScripts(scripts) {
+        const scriptsList = document.getElementById('scriptsList');
+        scriptsList.innerHTML = ''; // Limpa os resultados anteriores
+        scripts.forEach(script => {
+            const scriptItem = document.createElement('div');
+            scriptItem.classList.add('script-item');
+            scriptItem.textContent = script.script;
+            scriptItem.onclick = () => openModal(script.conteudo); // Ação ao clicar no item
+            scriptsList.appendChild(scriptItem);
+        });
+    }
+
+    // Função para abrir o modal e exibir o conteúdo do script
+    function openModal(scriptContent) {
+        document.getElementById('scriptContent').value = scriptContent;
+        document.getElementById('scriptModal').style.display = 'block';
+    }
+
+    // Função para fechar o modal
+    function closeModal() {
+        document.getElementById('scriptModal').style.display = 'none';
+    }
+
+    // Função para copiar o script para a área de transferência
+    function copyToClipboard() {
+        const scriptContent = document.getElementById('scriptContent');
+        scriptContent.select();
+        document.execCommand('copy');
+        showNotification("Script copiado para a área de transferência!", "success");
+    }
+
+    // Exibe uma notificação personalizada
+    function showNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.classList.add('notification', type);
+        notification.textContent = message;
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.remove();
+        }, 5000); // Remove a notificação após 5 segundos
+    }
+
+    // Redireciona para o link do app, mas só faz isso uma vez
+    function redirectToApp() {
+        if (isRedirecting) return; // Impede múltiplos redirecionamentos
+        isRedirecting = true;
+        setTimeout(() => {
+            window.location.href = appDownloadUrl;
+        }, 3000); // Atraso de 3 segundos antes de redirecionar
+    }
+
+    // Função para tratar a tecla Enter como uma pesquisa
+    function handleKeyPress(event) {
+        if (event.key === 'Enter') {
+            filterScripts();
+        }
+    }
+
+    // Adiciona o CSS diretamente no JavaScript
+    const styles = `
+        .notification {
+            position: fixed;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: #fff;
+            font-weight: bold;
+            z-index: 1000;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        .notification.info {
+            background-color: #2196F3;
+        }
+        .notification.success {
+            background-color: #4CAF50;
+        }
+        .notification.warning {
+            background-color: #FF9800;
+        }
+        .notification.error {
+            background-color: #F44336;
+        }
+    `;
+    const styleSheet = document.createElement("style");
+    styleSheet.type = "text/css";
+    styleSheet.innerText = styles;
+    document.head.appendChild(styleSheet);
+
+    // Chama a função para buscar os scripts quando a página carregar
+    window.onload = fetchScripts;
+
+    // Adiciona o evento de pressionamento de tecla para disparar a pesquisa
+    document.getElementById('searchInput').addEventListener('keypress', handleKeyPress);
+</script>
+</body>
+</html>
