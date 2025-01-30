@@ -13,11 +13,11 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #000;
+            background: linear-gradient(135deg, #1a1a1a, #000);
             color: #fff;
             display: flex;
-            justify-content: flex-start;
-            align-items: flex-start;
+            justify-content: center;
+            align-items: center;
             min-height: 100vh;
             flex-direction: column;
             text-align: center;
@@ -48,24 +48,14 @@
 
         /* Animação de entrada em 3D */
         @keyframes slideIn3D {
-            0% {
-                transform: translate3d(100%, 0, 0) rotateY(90deg);
-                opacity: 0;
-            }
-            100% {
-                transform: translate3d(0, 0, 0) rotateY(0deg);
-                opacity: 1;
-            }
+            0% { transform: translate3d(100%, 0, 0) rotateY(90deg); opacity: 0; }
+            100% { transform: translate3d(0, 0, 0) rotateY(0deg); opacity: 1; }
         }
 
         /* Efeito de fade-in */
         @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
+            0% { opacity: 0; }
+            100% { opacity: 1; }
         }
 
         /* Contêiner superior */
@@ -74,59 +64,63 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
+            max-width: 800px;
             padding: 20px;
-            background-color: #1a1a1a; /* Preto acinzentado */
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
-            animation: slideIn3D 1s ease-out forwards; /* Animação 3D */
+            background-color: rgba(26, 26, 26, 0.8);
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            animation: slideIn3D 1s ease-out forwards;
+            margin-bottom: 20px;
         }
 
         .top-container img {
             width: 120px;
             height: 120px;
             border-radius: 50%;
-            animation: fadeIn 2s ease-out; /* Animação fade-in */
+            animation: fadeIn 2s ease-out;
+            border: 3px solid #8e44ad;
         }
 
         .top-container h1 {
             margin-top: 10px;
             font-size: 2.8em;
-            color: #8e44ad; /* Roxo */
-            animation: fadeIn 2s ease-out; /* Animação fade-in */
+            color: #8e44ad;
+            animation: fadeIn 2s ease-out;
         }
 
         .bio {
             margin-top: 15px;
             font-size: 1.1em;
-            color: #bbb; /* Branco suave */
+            color: #bbb;
             max-width: 500px;
             line-height: 1.6;
-            animation: fadeIn 2s ease-out; /* Animação fade-in */
+            animation: fadeIn 2s ease-out;
         }
 
         /* Linha de borda a borda */
         .line {
             width: 100%;
             height: 2px;
-            background-color: #8e44ad; /* Roxo */
+            background-color: #8e44ad;
             margin: 30px 0;
-            animation: fadeIn 2s ease-out; /* Animação fade-in */
+            animation: fadeIn 2s ease-out;
         }
 
         /* Contêiner dos botões */
         .button-container {
             display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
             gap: 20px;
-            justify-content: flex-start;
+            justify-content: center;
             align-items: center;
             width: 100%;
+            max-width: 800px;
             padding: 0 20px;
-            animation: fadeIn 2s ease-out; /* Animação fade-in */
+            animation: fadeIn 2s ease-out;
         }
 
         .button {
-            background-color: #1a1a1a; /* Preto acinzentado */
+            background-color: rgba(26, 26, 26, 0.8);
             border: none;
             padding: 20px;
             color: white;
@@ -137,20 +131,26 @@
             align-items: center;
             justify-content: center;
             transition: background-color 0.3s ease, transform 0.3s ease;
-            width: 90%;
+            width: 100%;
+            max-width: 250px;
             height: 250px;
             position: relative;
-            animation: fadeIn 2s ease-out; /* Animação fade-in */
+            animation: fadeIn 2s ease-out;
         }
 
         .button:hover {
             background-color: rgba(0, 0, 0, 0.7);
-            transform: translateY(-5px);
+            transform: translateY(-5px) scale(1.05);
         }
 
         .button img {
             width: 60px;
             height: 60px;
+            transition: transform 0.3s ease;
+        }
+
+        .button:hover img {
+            transform: scale(1.2);
         }
 
         /* Descrição que aparece ao passar o dedo */
@@ -164,6 +164,7 @@
             border-radius: 5px;
             width: 80%;
             text-align: center;
+            font-size: 0.9em;
         }
 
         .button:hover .description {
@@ -186,13 +187,13 @@
             }
 
             .button img {
-                width: 150px;
-                height: 150px;
-                border-radius: 15px; /* Torna os cantos arredondados */
-            }
+             width: 150px;
+             height: 150px;
+             border-radius: 10px;
+             }
 
             .description {
-                font-size: 1em;
+                font-size: 0.8em;
                 width: 90%;
             }
         }
@@ -213,24 +214,23 @@
     </style>
 </head>
 <body>
-
     <!-- Contêiner de carregamento -->
     <div class="loading-overlay" id="loadingOverlay">
         Carregando...
     </div>
 
-   <!-- Contêiner inicial -->
-<div class="top-container">
-    <img src="https://raw.githubusercontent.com/kauam73/kauam/refs/heads/main/photos/Perfil.jpg" alt="Foto de Kauam">
-    <h1>Tekscripts</h1>
-    <p class="bio">
-        Olá, meu nome é <strong>Kauam</strong>, tenho 15 anos e minha jornada na programação começou de uma forma inesperada: por influência de uma garota. Embora tenha sido enganado, encontrei, no processo, minha verdadeira paixão – a programação. Desde então, esse tem sido meu foco, e estou determinado a continuar nessa trajetória.
-        <br><br>
-        <strong>Tekscripts</strong> é a nossa equipe dedicada à criação de scripts e automações que visam simplificar processos e trazer resultados impactantes.
-        <br><br>
-        Junte-se a nós e vamos explorar juntos as possibilidades de transformar ideias em soluções!
-    </p>
-</div>
+    <!-- Contêiner inicial -->
+    <div class="top-container">
+        <img src="https://raw.githubusercontent.com/kauam73/kauam/refs/heads/main/photos/Perfil.jpg" alt="Foto de Kauam">
+        <h1>Tekscripts</h1>
+       <p class="bio">
+    Olá, meu nome é <strong>Kauam</strong>, tenho 15 anos e minha jornada na programação começou de uma forma inesperada: ao descobrir como a programação é incrível e tudo o que ela pode fazer. No processo, aprendi muitas coisas sobre a área. Desde então, esse tem sido meu foco, e estou determinado a continuar nessa trajetória.
+    <br><br>
+    <strong>Tekscripts</strong> é a nossa equipe dedicada à criação de scripts e automações que simplificam processos e geram resultados impactantes.
+    <br><br>
+    Junte-se a nós e vamos explorar juntos as possibilidades de transformar ideias em soluções!
+</p>
+    </div>
 
     <!-- Linha de borda -->
     <div class="line"></div>
@@ -238,163 +238,158 @@
     <!-- Contêiner dos botões -->
     <div class="button-container">
         <button class="button" onmouseover="showDescription(this)" onmouseout="hideDescription(this)" onclick="window.open('https://www.tiktok.com/@tekscriptss', '_blank')">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDFn9l-qVc9Ep7fJy4tD1bngRkSPk-y6S2dA&s" alt="TikTok">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiBBqfxZA-4_w-sdESiwCVlmArPIY43n24MyMrXEkV3wQKYMLLjaUAP25g&s=10" alt="TikTok">
             <div class="description">segue nois lá pô 😔</div>
         </button>
-
         <button class="button" onmouseover="showDescription(this)" onmouseout="hideDescription(this)" onclick="window.open('https://youtube.com/@tekscripts', '_blank')">
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5tBNFuyQfjkiDXZ4mTREmgrsLUbu0wv0s8w&s" alt="YouTube">
             <div class="description">da laiki</div>
         </button>
-
         <button class="button" onmouseover="showDescription(this)" onmouseout="hideDescription(this)" onclick="window.open('https://discord.com/users/1070863400508338196', '_blank')">
             <img src="https://raw.githubusercontent.com/kauam73/kauam/refs/heads/main/photos/Perfil.jpg" alt="Discord">
             <div class="description">add no dc</div>
         </button>
-
         <button class="button" onmouseover="showDescription(this)" onmouseout="hideDescription(this)" onclick="window.open('https://discord.gg/eTEb4gzbdz', '_blank')">
             <img src="https://img.icons8.com/m_outlined/200/FFFFFF/discord-logo.png" alt="Servidor Discord">
-            <div class="description">entra ai nosso servidor do Discord </div>
+            <div class="description">entra ai nosso servidor do Discord</div>
         </button>
     </div>
 
-   <!-- Linha de borda -->
+    <!-- Linha de borda -->
     <div class="line"></div>
 
-<div class="top-container">
+    <div class="top-container">
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdhizpI5Ytm7FpwC7nUnkwLGX8vTh9mORE4g&s" alt="Foto">
         <h1>Tekscripts</h1>
         <p class="bio">desenvolvedores do aplicativo</p>
     </div>
 
-<!-- Linha de borda -->
-   <div class="line"></div>
-
-
-<!-- Contêiner dos botões -->
-<div class="button-container">
-    <button class="button" onmouseover="showDescription(this)" onmouseout="hideDescription(this)">
-        <img src="https://iili.io/2QqlOR1.gif" alt="kauam">
-        <div class="description">programador oficial | kauam | </div>
-    </button>
-
-    <button class="button" onmouseover="showDescription(this)" onmouseout="hideDescription(this)">
-        <img src="https://iili.io/2Qq0Dp1.gif" alt="reivison">
-        <div class="description">desenvolvedor Tester | Reivison |</div>
-    </button>
-</div>
-
- <!-- Linha de borda -->
+    <!-- Linha de borda -->
     <div class="line"></div>
 
-
-<div class="top-container">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGX4AeYohzNgjuUuiGqJB_xJLNdmh1wr7Heg&s" alt="Foto">
-        <h1>hehehe</h1>
-        <p class="bio">linguagens utilizadas no aplicativo </p>
+    <!-- Contêiner dos botões -->
+    <div class="button-container">
+        <button class="button" onmouseover="showDescription(this)" onmouseout="hideDescription(this)">
+            <img src="https://iili.io/2QqlOR1.gif" alt="kauam">
+            <div class="description">programador oficial | kauam |</div>
+        </button>
+        <button class="button" onmouseover="showDescription(this)" onmouseout="hideDescription(this)">
+            <img src="https://iili.io/2Qq0Dp1.gif" alt="reivison">
+            <div class="description">desenvolvedor Tester | Reivison |</div>
+        </button>
     </div>
 
-<!-- Linha de borda -->
-   <div class="line"></div>
+    <!-- Linha de borda -->
+    <div class="line"></div>
 
-<!-- Contêiner dos botões -->
-<div class="button-container">
-    <button class="button" onmouseover="showDescription(this)" onmouseout="hideDescription(this)">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdpsdo7L1gKRenSxqlXiBHDj8iQsLXBY_L5w&usqp=CAU" alt="html">
-        <div class="description">HTML línguagem de marcação</div>
-    </button>
+    <div class="top-container">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGX4AeYohzNgjuUuiGqJB_xJLNdmh1wr7Heg&s" alt="Foto">
+        <h1>hehehe</h1>
+        <p class="bio">linguagens utilizadas no aplicativo</p>
+    </div>
 
-    <button class="button" onmouseover="showDescription(this)" onmouseout="hideDescription(this)">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuQg4b6cPQ_w1PjgvmVwqYreT9TZCBZuKHionH4TfqH5QrXY7jWOWvWhtC&s=10" alt="css">
-    <div class="description">CSS linguagem de estilos</div>
-</button>
+    <!-- Linha de borda -->
+    <div class="line"></div>
 
-<button class="button" onmouseover="showDescription(this)" onmouseout="hideDescription(this)">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGgobtf1Pl2LaEyLFmutbSq2FD_bN8AXoydg5wAHBVAqVGUmEXB4EkBGbO&s=10" alt="javascript">
-    <div class="description">JavaScript linguagem de programação</div>
-</button>
+    <!-- Contêiner dos botões -->
+    <div class="button-container">
+        <button class="button" onmouseover="showDescription(this)" onmouseout="hideDescription(this)">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcS4KrEaMaN4auNG5X21wDwW0m7OzTpeSnnw&usqp=CAU" alt="html">
+            <div class="description">HTML línguagem de marcação</div>
+        </button>
+        <button class="button" onmouseover="showDescription(this)" onmouseout="hideDescription(this)">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuQg4b6cPQ_w1PjgvmVwqYreT9TZCBZuKHionH4TfqH5QrXY7jWOWvWhtC&s=10" alt="css">
+            <div class="description">CSS linguagem de estilos</div>
+        </button>
+        <button class="button" onmouseover="showDescription(this)" onmouseout="hideDescription(this)">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGgobtf1Pl2LaEyLFmutbSq2FD_bN8AXoydg5wAHBVAqVGUmEXB4EkBGbO&s=10" alt="javascript">
+            <div class="description">JavaScript linguagem de programação</div>
+        </button>
+        <button class="button" onmouseover="showDescription(this)" onmouseout="hideDescription(this)">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwluxXFIIAFsGysxhOdzsbxNbw_jX93brbdg&s" alt="java">
+            <div class="description">Java linguagem orientada a objeto foi pouca utilizada no aplicativo.</div>
+        </button>
+    </div>
 
-<button class="button" onmouseover="showDescription(this)" onmouseout="hideDescription(this)">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwluxXFIIAFsGysxhOdzsbxNbw_jX93brbdg&s" alt="java">
-    <div class="description">Java linguagem orientada a objeto foi pouca utilizada no aplicativo.</div>
-</button>
+    <!-- Linha de borda -->
+    <div class="line"></div>
 
-<!-- Linha de borda -->
-   <div class="line"></div>
-
-<div class="top-container">
+    <div class="top-container">
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZVbPNAXgwgHBVQTGCj6hWgUCRX9UqV1ogzg&s" alt="Foto">
         <h1>Testar mecanismo de pesquisa</h1>
         <p class="bio">test search scripts abaixo</p>
     </div>
 
-<!-- Linha de borda -->
-   <div class="line"></div>
+    <!-- Linha de borda -->
+    <div class="line"></div>
 
-<button class="button" onmouseover="showDescription(this)" onmouseout="hideDescription(this)" onclick="window.open('test.html', '_blank')">
-    <img src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/cdae09864a04d5d3650a96ab0fcd8ed8~c5_100x100.jpeg?lk3s=a5d48078&nonce=50950&refresh_token=1c377a47f43afdb45168b74cee72858b&x-expires=1738342800&x-signature=x87wadJqx9gvCGjrqH%2FsXvUXDns%3D&shp=a5d48078&shcp=81f88b70" alt="Test Search scripts">
-    <div class="description">TESTE SEARCH SCRIPTS</div>
-</button>
+    <button class="button" onmouseover="showDescription(this)" onmouseout="hideDescription(this)" onclick="window.open('test.html', '_blank')">
+        <img src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/cdae09864a04d5d3650a96ab0fcd8ed8~c5_100x100.jpeg?lk3s=a5d48078&nonce=50950&refresh_token=1c377a47f43afdb45168b74cee72858b&x-expires=1738342800&x-signature=x87wadJqx9gvCGjrqH%2FsXvUXDns%3D&shp=a5d48078&shcp=81f88b70" alt="Test Search scripts">
+        <div class="description">TESTE SEARCH SCRIPTS</div>
+    </button>
 
-<!-- Linha de borda -->
-   <div class="line"></div>
+    <!-- Linha de borda -->
+    <div class="line"></div>
 
-<div class="top-container">
+    <div class="top-container">
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlZvJ7fS7RyF_Yoj7I5r_SUSf5L0evbZ4ufQ&usqp=CAU" alt="Foto">
         <h1>Tekscripts</h1>
         <p class="bio">créditos</p>
     </div>
 
-<!-- Linha de borda -->
-   <div class="line"></div>
+    <!-- Linha de borda -->
+    <div class="line"></div>
 
-<!-- Contêiner de créditos -->
-<div class="top-container">
-    <p class="bio">
-        Agradecimentos especiais a:<br>
-        <strong>Miko (Liandra)</strong> - Designer, por fornecer imagens e ideias fundamentais para o desenvolvimento do aplicativo.<br>
-        <strong>Reivison</strong> - Por sua valiosa contribuição na melhoria do aplicativo e colaboração em diversos projetos.<br>
-        <strong>Yasmin</strong> - Pelas sugestões de melhorias e ideias inovadoras que enriqueceram o projeto.<br>
-        <strong>Gabriel e Gustavo</strong> - Pelo esforço dedicado na área de divulgação do aplicativo.<br>
-        E um agradecimento geral a todos os membros da <strong>Tekscripts</strong> que contribuíram para o sucesso deste projeto.
-    </p>
-</div>
+    <!-- Contêiner de créditos -->
+    <div class="top-container">
+        <p class="bio">
+            Agradecimentos especiais a:<br>
+            <strong>Miko (Liandra)</strong> - Designer, por fornecer imagens e ideias fundamentais para o desenvolvimento do aplicativo.<br>
+            <strong>Reivison</strong> - Por sua valiosa contribuição na melhoria do aplicativo e colaboração em diversos projetos.<br>
+            <strong>Yasmin</strong> - Pelas sugestões de melhorias e ideias inovadoras que enriqueceram o projeto.<br>
+            <strong>Gabriel e Gustavo</strong> - Pelo esforço dedicado na área de divulgação do aplicativo.<br>
+            E um agradecimento geral a todos os membros da <strong>Tekscripts</strong> que contribuíram para o sucesso deste projeto.
+        </p>
+    </div>
 
-<!-- Linha de borda -->
-   <div class="line"></div>
+    <!-- Linha de borda -->
+    <div class="line"></div>
 
     <script>
-    function showDescription(button) {
-        const description = button.querySelector('.description');
-        description.style.display = 'block';
-        setTimeout(() => {
+        function showDescription(button) {
+            const description = button.querySelector('.description');
+            description.style.display = 'block';
+            setTimeout(() => {
+                description.style.display = 'none';
+            }, 5000);
+        }
+
+        function hideDescription(button) {
+            const description = button.querySelector('.description');
             description.style.display = 'none';
-        }, 5000);
-    }
-
-    function hideDescription(button) {
-        const description = button.querySelector('.description');
-        description.style.display = 'none';
-    }
-
-    window.onload = function() {
-        document.getElementById("loadingOverlay").style.display = "none";
-    };
-
-    // Bloquear zoom no desktop
-    document.addEventListener('wheel', function(e) {
-        if (e.ctrlKey) {
-            e.preventDefault();
         }
-    }, { passive: false });
 
-    // Bloquear zoom com teclas Ctrl +/+-
-    document.addEventListener('keydown', function(e) {
-        if ((e.ctrlKey && (e.key === '+' || e.key === '-' || e.key === '='))) {
-            e.preventDefault();
-        }
-    });
-</script>
+        window.onload = function() {
+            document.getElementById("loadingOverlay").style.display = "none";
+        };
 
+        // Bloquear zoom no desktop
+        document.addEventListener('wheel', function(e) {
+            if (e.ctrlKey) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        // Bloquear zoom com teclas Ctrl +/+- 
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey && (e.key === '+' || e.key === '-' || e.key === '='))) {
+                e.preventDefault();
+            }
+        });
+    </script>
 </body>
 </html>
+
+
+
+            
