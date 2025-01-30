@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Política de Segurança - SecurityBot</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #5865F2;
+            --secondary: #2b2d31;
+            --background: #1e1e1e;
+            --text: #ffffff;
+            --accent: #3ba55c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--background);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1s forwards;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, var(--primary), #3ba55c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            animation: textGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes textGlow {
+            from { text-shadow: 0 0 10px rgba(88,101,242,0.3); }
+            to { text-shadow: 0 0 20px rgba(88,101,242,0.6); }
+        }
+
+        .section {
+            background: var(--secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(88,101,242,0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .section:hover::before {
+            left: 100%;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .icon {
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .section.active .icon {
+            transform: rotate(45deg);
+        }
+
+        .content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding-left: 2.5rem;
+        }
+
+        .subsection {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+        }
+
+        .warning-badge {
+            background: rgba(255,69,58,0.15);
+            border: 1px solid #FF453A;
+        }
+
+        .info-badge {
+            background: rgba(88,101,242,0.15);
+            border: 1px solid var(--primary);
+        }
+
+        .protocol-list {
+            list-style: none;
+            padding-left: 1rem;
+        }
+
+        .protocol-list li {
+            position: relative;
+            padding-left: 2rem;
+            margin: 1rem 0;
+        }
+
+        .protocol-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .section {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <h1 class="title"><i class="fas fa-shield-alt"></i>Política de Segurança</h1>
+            <p>SecurityBot - Transparência e Controle de Dados</p>
+        </header>
+
+        <section class="section">
+            <div class="section-header" onclick="toggleSection(1)">
+                <div class="section-title">
+                    <i class="fas fa-code icon"></i>
+                    <h2>Verificação de Código de API</h2>
+                </div>
+                <span class="badge info-badge">Nível 1: Análise Direta</span>
+            </div>
+            <div class="content">
+                <div class="subsection">
+                    <h3>Para Desenvolvedores com Acesso:</h3>
+                    <ul class="protocol-list">
+                        <li>Inspeção estática de código fonte</li>
+                        <li>Verificação de bibliotecas de terceiros</li>
+                        <li>Análise de padrões de comunicação</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h3>Para Usuários sem Acesso ao Código:</h3>
+                    <div class="badge warning-badge">Protocolo de Segurança Estendido</div>
+                    <ul class="protocol-list">
+                        <li>Monitoramento comportamental em tempo real</li>
+                        <li>Análise heurística de padrões de tráfego</li>
+                        <li>Verificação de certificados digitais</li>
+                        <li>Auditoria de terceiros certificados</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-header" onclick="toggleSection(2)">
+                <div class="section-title">
+                    <i class="fas fa-user-shield icon"></i>
+                    <h2>Proteção do Usuário</h2>
+                </div>
+                <span class="badge info-badge">Nível 2: Monitoramento Contínuo</span>
+            </div>
+            <div class="content">
+                <div class="subsection">
+                    <h3>Medidas Preventivas Gerais:</h3>
+                    <ul class="protocol-list">
+                        <li>Criptografia de ponta a ponta</li>
+                        <li>Tokenização de dados sensíveis</li>
+                        <li>Isolamento de processos críticos</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h3>Para APIs Não Verificáveis:</h3>
+                    <div class="badge warning-badge">Modo de Segurança Reforçada</div>
+                    <ul class="protocol-list">
+                        <li>Limitação de escopo de acesso</li>
+                        <li>Requisitos de autenticação multifator</li>
+                        <li>Logs detalhados de atividade</li>
+                        <li>Notificações em tempo real para usuários</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-header" onclick="toggleSection(3)">
+                <div class="section-title">
+                    <i class="fas fa-bug icon"></i>
+                    <h2>Resposta a Incidentes</h2>
+                </div>
+                <span class="badge info-badge">Nível 3: Ações Corretivas</span>
+            </div>
+            <div class="content">
+                <div class="subsection">
+                    <h3>Procedimentos Padrão:</h3>
+                    <ul class="protocol-list">
+                        <li>Isolamento imediato de componentes suspeitos</li>
+                        <li>Reversão automática de alterações</li>
+                        <li>Notificação regulatória obrigatória</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h3>Para Casos Não Detectáveis:</h3>
+                    <div class="badge warning-badge">Protocolo Especial</div>
+                    <ul class="protocol-list">
+                        <li>Análise forense pós-evento</li>
+                        <li>Ativação de backups criptografados</li>
+                        <li>Relatório detalhado para usuários afetados</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+    // Loading animation
+    window.addEventListener('load', () => {
+        document.querySelector('.loader').style.opacity = '0';
+        setTimeout(() => {
+            document.querySelector('.loader').style.display = 'none';
+            document.querySelector('.container').style.opacity = '1';
+            document.querySelector('.container').style.transform = 'translateY(0)';
+            
+            // Iniciar observer após carregamento
+            document.querySelectorAll('.section').forEach(section => {
+                // Forçar reflow para acionar animação
+                void section.offsetHeight;
+                observer.observe(section);
+            });
+        }, 500);
+    });
+
+    // Section toggle
+    function toggleSection(num) {
+        const section = document.querySelectorAll('.section')[num - 1];
+        const content = section.querySelector('.content');
+        const isActive = section.classList.contains('active');
+        
+        document.querySelectorAll('.section').forEach(s => {
+            s.classList.remove('active');
+            s.querySelector('.content').style.maxHeight = null;
+        });
+
+        if (!isActive) {
+            section.classList.add('active');
+            content.style.maxHeight = content.scrollHeight + 'px';
+        }
+    }
+
+    // Scroll animation corrigida
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                // Parar de observar após a animação
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { 
+        threshold: 0.1,
+        rootMargin: '0px 0px -25px 0px'
+    });
+
+    // Configuração inicial das seções
+    document.querySelectorAll('.section').forEach(section => {
+        section.style.opacity = '0';
+        section.style.transform = 'translateY(20px)';
+    });
+</script>
+</body>
+</html>
