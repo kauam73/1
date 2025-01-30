@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TekScripts - Download Executores</title>
+  <style>
+    /* Definindo variáveis para personalização fácil */
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #000000;
+      --card-bg: #f1f1f1;
+      --button-bg: #007bff;
+      --button-text: #ffffff;
+      --hover-bg: #0056b3;
+      --border-radius: 12px;
+      --transition-speed: 0.3s;
+      --box-shadow: rgba(0, 0, 0, 0.1);
+      --card-img-size: 80px; /* Diminuindo o tamanho das imagens */
+    }
+
+    [data-theme="dark"] {
+      --bg-color: #121212;
+      --text-color: #ffffff;
+      --card-bg: #1e1e1e;
+      --button-bg: #6200ea;
+      --button-text: #ffffff;
+      --hover-bg: #3700b3;
+      --box-shadow: rgba(255, 255, 255, 0.1);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color var(--transition-speed), color var(--transition-speed);
+      overflow-x: hidden;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px;
+      background-color: var(--card-bg);
+      box-shadow: 0 2px 10px var(--box-shadow);
+      border-bottom: 1px solid #ddd;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+      color: var(--text-color);
+      letter-spacing: 1px;
+    }
+
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Layout adaptável para 2 em 2 cards */
+      gap: 30px;
+      padding: 30px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 15px var(--box-shadow);
+      overflow: hidden;
+      text-align: center;
+      transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Melhorando as bordas das imagens */
+    .card img {
+      width: 60%; /* Ajustando o tamanho das imagens */
+      height: auto;
+      object-fit: cover;
+      border-bottom: 1px solid #ddd;
+      margin-top: 10px;
+      border-radius: 8px; /* Borda arredondada nas imagens */
+      opacity: 0;
+      animation: fadeIn 0.8s ease-in-out forwards; /* Adicionando animação de entrada */
+    }
+
+    /* Animação de fade-in */
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    .card-title {
+      font-size: 20px;
+      padding: 10px;
+      color: var(--text-color);
+      font-weight: bold;
+      background-color: var(--card-bg);
+    }
+
+    .card-content {
+      background-color: var(--card-bg);
+      padding: 10px;
+    }
+
+    .card-content a {
+      display: inline-block;
+      width: 90%;
+      padding: 12px;
+      text-align: center;
+      text-decoration: none;
+      background-color: var(--button-bg);
+      color: var(--button-text);
+      font-size: 18px;
+      border-radius: 0 0 var(--border-radius) var(--border-radius);
+      transition: background-color var(--transition-speed), transform var(--transition-speed);
+    }
+
+    .card-content a:hover {
+      background-color: var(--hover-bg);
+      transform: translateY(-3px);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>TekScripts - Download Executores</h1>
+  </header>
+
+  <div class="cards-container">
+  <!-- Card 1 -->
+  <div class="card">
+    <div class="card-title">FLUXOS</div>
+    <div class="card-content">
+      <img src="https://cdn.discordapp.com/emojis/1273680261283971205?size=512" alt="Executor 1">
+      <a href="javascript:void(0);" class="btn" onclick="window.location.href='https://www.mediafire.com/file/2fyisfibx64um4e/FluxusV655.apk/file?dkey=83qjchdcyxf&r=589#'">Baixar</a>
+    </div>
+  </div>
+  <!-- Card 2 -->
+  <div class="card">
+    <div class="card-title">TRIGON</div>
+    <div class="card-content">
+      <img src="https://trigonevo.com/wp-content/uploads/2021/09/cropped-New-Trigon-with-Shadow-150x150.png" alt="Executor 2">
+      <a href="javascript:void(0);" class="btn" onclick="window.location.href='https://www.mediafire.com/file/7zlllmnaq3p9t46/Trigon_v2.655.1095.apk/file?dkey=0uzgoouaroh&r=1285'">Baixar</a>
+    </div>
+  </div>
+  <!-- Card 3 -->
+  <div class="card">
+    <div class="card-title">Codex</div>
+    <div class="card-content">
+      <img src="https://cdn.discordapp.com/emojis/1273713250223259813?size=512" alt="Executor 3">
+      <a href="javascript:void(0);" class="btn" onclick="window.location.href='https://www.mediafire.com/file/98v9cvdhyfnp5j2/Codex+2.655.apk/file?dkey=lya8iuv0eii&r=863'">Baixar</a>
+    </div>
+  </div>
+  <!-- Card 4 -->
+  <div class="card">
+    <div class="card-title">Vegax</div>
+    <div class="card-content">
+      <img src="https://cdn.discordapp.com/emojis/1273713425914007583?size=512" alt="Executor 4">
+      <a href="javascript:void(0);" class="btn" onclick="window.location.href='https://github.com/1f0yt/community/releases/download/Vegax/Vega.X.apk'">Baixar</a>
+</div>
+    </div>
+     <!-- Card 5 -->
+  <div class="card">
+    <div class="card-title">Arceus X neo</div>
+    <div class="card-content">
+      <img src="https://cdn.discordapp.com/emojis/1273669936149037189?size=512" alt="Executor 5">
+      <a href="javascript:void(0);" class="btn" onclick="window.location.href='https://www.mediafire.com/file/us34npcki8i9ucw/Roblox_Arceus_X_NEO_1.5.0.apk/file?dkey=tax353shlqj&r=1924'">Baixar</a>
+    </div>
+</div>
+      <!-- Card 6 -->
+  <div class="card">
+    <div class="card-title">ReveliX</div>
+    <div class="card-content">
+      <img src="https://www.getrevelix.xyz/logo.png" alt="Executor 6">
+      <a href="javascript:void(0);" class="btn" onclick="window.location.href='https://www.mediafire.com/file/p87l74kj3x0feyz/ReveliX_2.657.603.apk/file'">Baixar</a>
+    </div>
+</div>
+ <!-- Card 7 -->
+  <div class="card">
+    <div class="card-title">cubix</div>
+    <div class="card-content">
+      <img src="https://cdn.discordapp.com/emojis/1273713232879681549?size=512" alt="Executor 6">
+      <a href="javascript:void(0);" class="btn" onclick="window.location.href='https://www.mediafire.com/file/x5ohlwiu2v88une/CubixAndroid.apk/file?dkey=u3p28o9tvbn&r=1411'">Baixar</a>
+    </div>
+
+  <script>
+    // Detecta a preferência de tema do dispositivo (escuro ou claro)
+    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+
+    // Função para alterar o tema
+    function setTheme(e) {
+      if (e.matches) {
+        document.body.setAttribute("data-theme", "dark");
+      } else {
+        document.body.setAttribute("data-theme", "light");
+      }
+    }
+
+    // Aplica a função de detecção de tema ao inicializar
+    prefersDarkScheme.addEventListener('change', setTheme);
+    setTheme(prefersDarkScheme);
+  </script>
+</body>
+  </html>
