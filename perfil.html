@@ -1,97 +1,96 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projeto Encerrado</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projeto Encerrado</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
 
-        body {
-            background-color: #f5f5f5;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            line-height: 1.6;
-            padding: 20px;
-        }
+    body {
+      background: linear-gradient(135deg, #f0f0f0, #e4e9f7);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      animation: fadeIn 1s ease-in-out;
+    }
 
-        .container {
-            background-color: #ffffff;
-            max-width: 600px;
-            width: 100%;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            text-align: center;
-            border: 1px solid #eee;
-            animation: fadeIn 1s ease-in;
-        }
+    .container {
+      background-color: #ffffff;
+      max-width: 600px;
+      width: 100%;
+      padding: 35px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      text-align: center;
+      border: 1px solid #ddd;
+    }
 
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
-            font-size: 2.2em;
-            font-weight: 300;
-        }
+    .emoji {
+      font-size: 4em;
+      margin-bottom: 10px;
+      opacity: 0.85;
+    }
 
-        p {
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 1.1em;
-        }
+    h1 {
+      color: #2c3e50;
+      font-size: 1.9em;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
 
-        .emoji {
-            font-size: 3em;
-            margin-bottom: 20px;
-            opacity: 0.8;
-        }
+    p {
+      color: #555;
+      font-size: 1.05em;
+      margin-bottom: 30px;
+    }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    .highlight {
+      color: #2d89ef;
+      font-weight: bold;
+    }
 
-        @media (max-width: 480px) {
-            .container {
-                padding: 25px;
-            }
+    button {
+      background-color: #2d89ef;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background 0.3s ease;
+    }
 
-            h1 {
-                font-size: 1.8em;
-            }
+    button:hover {
+      background-color: #1b5fbf;
+    }
 
-            p {
-                font-size: 1em;
-            }
-        }
-    </style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="emoji">🪦</div>
-        <h1>Projeto Permanentemente Encerrado</h1>
-        <p>
-            Após cuidadosa consideração, decidimos encerrar definitivamente este projeto.<br><br>
-            A combinação de recursos limitados, falta de motivação sustentável e esgotamento criativo nos levou a esta difícil decisão.<br><br>
-            Agradecemos a todos que apoiaram esta jornada até aqui.
-        </p>
-    </div>
+  <div class="container">
+    <div class="emoji">🪦</div>
+    <h1>Projeto Encerrado</h1>
+    <p>
+      Este projeto foi <span class="highlight">finalizado permanentemente</span>.<br><br>
+      Fatores como <span class="highlight">recursos limitados</span> e <span class="highlight">falta de motivação contínua</span> nos levaram a tomar essa decisão.<br><br>
+      Agradecemos imensamente a todos que fizeram parte dessa jornada.
+    </p>
+  </div>
 
-    <script>
-        // Efeito simples de carregamento
-        window.addEventListener('load', () => {
-            document.body.style.opacity = 1;
-        });
-
-        // Log adicional no console
-        console.log('%c🚧 Projeto arquivado - Obrigado por tudo!', 'color: #888; font-size: 12px;');
-    </script>
+  <script>
+    console.log('%c🚧 Projeto arquivado - Obrigado por tudo!', 'color: #888; font-size: 12px;');
+  </script>
 </body>
 </html>
