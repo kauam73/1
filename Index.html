@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Visualizar Vídeo</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: black;
+    }
+    iframe {
+      width: 100vw;
+      height: 100vh;
+      border: none;
+    }
+    .mensagem {
+      color: white;
+      text-align: center;
+      padding-top: 20px;
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div id="container"></div>
+
+  <script>
+    function getParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    const videoUrl = getParam("video");
+
+    if (videoUrl) {
+      document.getElementById("container").innerHTML = `
+        <iframe src="${decodeURIComponent(videoUrl)}" allowfullscreen></iframe>
+      `;
+    } else {
+      document.getElementById("container").innerHTML = `
+        <div class="mensagem">
+          Nenhuma URL de vídeo fornecida.<br>
+          Use: <code>?video=https://www.blogger.com/video.g?token=...</code>
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>
