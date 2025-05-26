@@ -112,33 +112,31 @@
     }
 
     const videoUrl = getParam("video");
-    const downloadUrl = getParam("download");
-
     const playerContainer = document.getElementById("playerContainer");
     const downloadContainer = document.getElementById("downloadContainer");
 
     if (videoUrl) {
       const decodedVideo = decodeURIComponent(videoUrl);
-      const decodedDownload = downloadUrl ? decodeURIComponent(downloadUrl) : null;
 
-      playerContainer.innerHTML = `<iframe src="${decodedVideo}" allowfullscreen></iframe>`;
+      // Usar o mesmo link do vídeo como base para download
+      const downloadLink = decodedVideo;
 
-      if (decodedDownload) {
-        downloadContainer.innerHTML = `
-          <a class="download-link" href="${decodedDownload}" target="_blank" download>
-            Baixar Vídeo
-          </a>
-          <div class="direct-link">
-            Link direto: <a href="${decodedDownload}" target="_blank">${decodedDownload}</a>
-          </div>
-        `;
-      }
+      playerContainer.innerHTML = `<iframe src="${downloadLink}" allowfullscreen></iframe>`;
+
+      downloadContainer.innerHTML = `
+        <a class="download-link" href="${downloadLink}" target="_blank" download>
+          Baixar Vídeo
+        </a>
+        <div class="direct-link">
+          Link direto: <a href="${downloadLink}" target="_blank">${downloadLink}</a>
+        </div>
+      `;
     } else {
       playerContainer.innerHTML = `
         <div class="mensagem">
           Nenhuma URL de vídeo fornecida.<br><br>
           Use o formato:<br>
-          <code>?video=https://...&download=https://...</code>
+          <code>?video=https://www.blogger.com/video.g?token=...</code>
         </div>
       `;
     }
