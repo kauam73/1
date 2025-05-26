@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Visualizador de Vídeo</title>
+  <meta charset="UTF-8" />
+  <title>Visualizador e Download de Vídeo</title>
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-
     body {
       background-color: #121212;
       color: #f0f0f0;
@@ -20,60 +19,49 @@
       min-height: 100vh;
       padding: 20px;
     }
-
     header {
       margin-bottom: 20px;
     }
-
     header h1 {
       font-size: 24px;
       color: #00bcd4;
     }
-
-    iframe {
+    video {
       width: 100%;
       max-width: 900px;
-      height: 500px;
+      height: auto;
       border: 2px solid #00bcd4;
       border-radius: 10px;
+      background: black;
     }
-
     .actions {
       margin-top: 20px;
-      text-align: center;
     }
-
-    .download-link, .copy-link {
+    .download-link {
       background-color: #00bcd4;
       color: black;
       text-decoration: none;
       padding: 12px 24px;
       border-radius: 8px;
       font-weight: bold;
-      margin: 10px;
       transition: background 0.3s, color 0.3s;
-      cursor: pointer;
-      display: inline-block;
+      user-select: none;
     }
-
-    .download-link:hover, .copy-link:hover {
+    .download-link:hover {
       background-color: #008ba3;
       color: #fff;
     }
-
     .mensagem {
       text-align: center;
       margin-top: 40px;
       font-size: 16px;
     }
-
     .mensagem code {
       background: #1e1e1e;
       padding: 5px 10px;
       border-radius: 5px;
       color: #cddc39;
     }
-
     footer {
       margin-top: auto;
       padding: 10px;
@@ -106,48 +94,29 @@
 
     if (videoUrl) {
       const decodedVideo = decodeURIComponent(videoUrl);
-      const directDownload = decodedVideo; // blogger links já são diretos
 
-      // Gerar ponte baseada no site atual
-      const ponteDownload = `${location.origin}/?video=${encodeURIComponent(decodedVideo)}&autoDownload=true`;
-
-      // Mostrar player
-      playerContainer.innerHTML = `<iframe src="${decodedVideo}" allowfullscreen></iframe>`;
-
-      // Mostrar botão e ação
-      downloadContainer.innerHTML = `
-        <a class="download-link" href="${directDownload}" download target="_blank">Baixar Vídeo</a>
-        <button class="copy-link" onclick="copiarLink()">Copiar Link Direto</button>
+      // Cria o player <video> com controles e autoplay desligado
+      playerContainer.innerHTML = `
+        <video controls preload="metadata" src="${decodedVideo}">
+          Seu navegador não suporta o elemento de vídeo.
+        </video>
       `;
 
-      // Copiar ponte
-      function copiarLink() {
-        navigator.clipboard.writeText(ponteDownload).then(() => {
-          alert("Link de download direto copiado!");
-        }).catch(() => {
-          alert("Erro ao copiar o link.");
-        });
-      }
-
-      // Auto download (modo ponte)
-      const autoDownload = getParam("autoDownload");
-      if (autoDownload === "true") {
-        const a = document.createElement("a");
-        a.href = directDownload;
-        a.download = "";
-        a.style.display = "none";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-      }
+      // Link para download usando o mesmo src do vídeo
+      downloadContainer.innerHTML = `
+        <a class="download-link" href="${decodedVideo}" download>
+          Baixar Vídeo
+        </a>
+      `;
     } else {
       playerContainer.innerHTML = `
         <div class="mensagem">
           Nenhuma URL de vídeo fornecida.<br><br>
           Use o formato:<br>
-          <code>?video=https://www.blogger.com/video.g?token=...</code>
+          <code>?video=https://example.com/video.mp4</code>
         </div>
       `;
+      downloadContainer.innerHTML = "";
     }
   </script>
 </body>
