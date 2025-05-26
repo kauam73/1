@@ -83,7 +83,8 @@
     <h1>Visualizador e Download de Vídeo</h1>
   </header>
 
-  <div id="container"></div>
+  <div id="playerContainer"></div>
+  <div id="downloadContainer" class="actions"></div>
 
   <footer>
     Desenvolvido por Kauam - Sistema de Vídeo Automático
@@ -98,26 +99,24 @@
     const videoUrl = getParam("video");
     const downloadUrl = getParam("download");
 
-    const container = document.getElementById("container");
+    const playerContainer = document.getElementById("playerContainer");
+    const downloadContainer = document.getElementById("downloadContainer");
 
     if (videoUrl) {
       const decodedVideo = decodeURIComponent(videoUrl);
       const decodedDownload = downloadUrl ? decodeURIComponent(downloadUrl) : null;
 
-      let html = `<iframe src="${decodedVideo}" allowfullscreen></iframe>`;
+      playerContainer.innerHTML = `<iframe src="${decodedVideo}" allowfullscreen></iframe>`;
 
       if (decodedDownload) {
-        html += `
-          <div class="actions">
-            <a class="download-link" href="${decodedDownload}" target="_blank" download>
-              Baixar Vídeo
-            </a>
-          </div>`;
+        downloadContainer.innerHTML = `
+          <a class="download-link" href="${decodedDownload}" target="_blank" download>
+            Baixar Vídeo
+          </a>
+        `;
       }
-
-      container.innerHTML = html;
     } else {
-      container.innerHTML = `
+      playerContainer.innerHTML = `
         <div class="mensagem">
           Nenhuma URL de vídeo fornecida.<br><br>
           Use o formato:<br>
