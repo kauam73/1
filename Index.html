@@ -23,10 +23,11 @@
 
     header {
       margin-bottom: 20px;
+      text-align: center;
     }
 
     header h1 {
-      font-size: 24px;
+      font-size: 28px;
       color: #00bcd4;
     }
 
@@ -40,6 +41,7 @@
 
     .actions {
       margin-top: 20px;
+      text-align: center;
     }
 
     .download-link {
@@ -50,11 +52,23 @@
       border-radius: 8px;
       font-weight: bold;
       transition: background 0.3s, color 0.3s;
+      display: inline-block;
     }
 
     .download-link:hover {
       background-color: #008ba3;
       color: #fff;
+    }
+
+    .direct-link {
+      margin-top: 10px;
+      font-size: 14px;
+      word-break: break-all;
+    }
+
+    .direct-link a {
+      color: #4fc3f7;
+      text-decoration: underline;
     }
 
     .mensagem {
@@ -75,6 +89,7 @@
       padding: 10px;
       font-size: 12px;
       color: #888;
+      text-align: center;
     }
   </style>
 </head>
@@ -113,6 +128,9 @@
           <a class="download-link" href="${decodedDownload}" target="_blank" download>
             Baixar Vídeo
           </a>
+          <div class="direct-link">
+            Link direto: <a href="${decodedDownload}" target="_blank">${decodedDownload}</a>
+          </div>
         `;
       }
     } else {
