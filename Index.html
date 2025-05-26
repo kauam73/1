@@ -8,17 +8,30 @@
       margin: 0;
       padding: 0;
       background: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
     }
     iframe {
       width: 100vw;
-      height: 100vh;
+      height: 70vh;
       border: none;
     }
     .mensagem {
+      padding: 20px;
+    }
+    .download-link {
+      display: inline-block;
+      margin-top: 20px;
+      background: #1a73e8;
       color: white;
-      text-align: center;
-      padding-top: 20px;
-      font-family: Arial, sans-serif;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+    .download-link:hover {
+      background: #0c5bd3;
     }
   </style>
 </head>
@@ -32,16 +45,24 @@
     }
 
     const videoUrl = getParam("video");
+    const downloadUrl = getParam("download");
 
     if (videoUrl) {
-      document.getElementById("container").innerHTML = `
-        <iframe src="${decodeURIComponent(videoUrl)}" allowfullscreen></iframe>
-      `;
+      const decodedVideo = decodeURIComponent(videoUrl);
+      const decodedDownload = downloadUrl ? decodeURIComponent(downloadUrl) : null;
+
+      let html = `<iframe src="${decodedVideo}" allowfullscreen></iframe>`;
+
+      if (decodedDownload) {
+        html += `<div><a class="download-link" href="${decodedDownload}" target="_blank" download>Baixar Vídeo</a></div>`;
+      }
+
+      document.getElementById("container").innerHTML = html;
     } else {
       document.getElementById("container").innerHTML = `
         <div class="mensagem">
           Nenhuma URL de vídeo fornecida.<br>
-          Use: <code>?video=https://www.blogger.com/video.g?token=...</code>
+          Use: <code>?video=https://...&download=https://...</code>
         </div>
       `;
     }
