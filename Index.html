@@ -23,11 +23,10 @@
 
     header {
       margin-bottom: 20px;
-      text-align: center;
     }
 
     header h1 {
-      font-size: 28px;
+      font-size: 24px;
       color: #00bcd4;
     }
 
@@ -44,31 +43,22 @@
       text-align: center;
     }
 
-    .download-link {
+    .download-link, .copy-link {
       background-color: #00bcd4;
       color: black;
       text-decoration: none;
       padding: 12px 24px;
       border-radius: 8px;
       font-weight: bold;
+      margin: 10px;
       transition: background 0.3s, color 0.3s;
+      cursor: pointer;
       display: inline-block;
     }
 
-    .download-link:hover {
+    .download-link:hover, .copy-link:hover {
       background-color: #008ba3;
       color: #fff;
-    }
-
-    .direct-link {
-      margin-top: 10px;
-      font-size: 14px;
-      word-break: break-all;
-    }
-
-    .direct-link a {
-      color: #4fc3f7;
-      text-decoration: underline;
     }
 
     .mensagem {
@@ -89,7 +79,6 @@
       padding: 10px;
       font-size: 12px;
       color: #888;
-      text-align: center;
     }
   </style>
 </head>
@@ -117,20 +106,40 @@
 
     if (videoUrl) {
       const decodedVideo = decodeURIComponent(videoUrl);
+      const directDownload = decodedVideo; // blogger links já são diretos
 
-      // Usar o mesmo link do vídeo como base para download
-      const downloadLink = decodedVideo;
+      // Gerar ponte baseada no site atual
+      const ponteDownload = `${location.origin}/?video=${encodeURIComponent(decodedVideo)}&autoDownload=true`;
 
-      playerContainer.innerHTML = `<iframe src="${downloadLink}" allowfullscreen></iframe>`;
+      // Mostrar player
+      playerContainer.innerHTML = `<iframe src="${decodedVideo}" allowfullscreen></iframe>`;
 
+      // Mostrar botão e ação
       downloadContainer.innerHTML = `
-        <a class="download-link" href="${downloadLink}" target="_blank" download>
-          Baixar Vídeo
-        </a>
-        <div class="direct-link">
-          Link direto: <a href="${downloadLink}" target="_blank">${downloadLink}</a>
-        </div>
+        <a class="download-link" href="${directDownload}" download target="_blank">Baixar Vídeo</a>
+        <button class="copy-link" onclick="copiarLink()">Copiar Link Direto</button>
       `;
+
+      // Copiar ponte
+      function copiarLink() {
+        navigator.clipboard.writeText(ponteDownload).then(() => {
+          alert("Link de download direto copiado!");
+        }).catch(() => {
+          alert("Erro ao copiar o link.");
+        });
+      }
+
+      // Auto download (modo ponte)
+      const autoDownload = getParam("autoDownload");
+      if (autoDownload === "true") {
+        const a = document.createElement("a");
+        a.href = directDownload;
+        a.download = "";
+        a.style.display = "none";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
     } else {
       playerContainer.innerHTML = `
         <div class="mensagem">
