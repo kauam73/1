@@ -2,41 +2,92 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Visualizar Vídeo</title>
+  <title>Visualizador de Vídeo</title>
   <style>
-    body {
+    * {
       margin: 0;
       padding: 0;
-      background: black;
-      color: white;
-      font-family: Arial, sans-serif;
-      text-align: center;
+      box-sizing: border-box;
     }
-    iframe {
-      width: 100vw;
-      height: 70vh;
-      border: none;
-    }
-    .mensagem {
+
+    body {
+      background-color: #121212;
+      color: #f0f0f0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
       padding: 20px;
     }
-    .download-link {
-      display: inline-block;
-      margin-top: 20px;
-      background: #1a73e8;
-      color: white;
-      padding: 10px 20px;
-      text-decoration: none;
-      border-radius: 8px;
-      transition: background 0.3s;
+
+    header {
+      margin-bottom: 20px;
     }
+
+    header h1 {
+      font-size: 24px;
+      color: #00bcd4;
+    }
+
+    iframe {
+      width: 100%;
+      max-width: 900px;
+      height: 500px;
+      border: 2px solid #00bcd4;
+      border-radius: 10px;
+    }
+
+    .actions {
+      margin-top: 20px;
+    }
+
+    .download-link {
+      background-color: #00bcd4;
+      color: black;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background 0.3s, color 0.3s;
+    }
+
     .download-link:hover {
-      background: #0c5bd3;
+      background-color: #008ba3;
+      color: #fff;
+    }
+
+    .mensagem {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 16px;
+    }
+
+    .mensagem code {
+      background: #1e1e1e;
+      padding: 5px 10px;
+      border-radius: 5px;
+      color: #cddc39;
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 10px;
+      font-size: 12px;
+      color: #888;
     }
   </style>
 </head>
 <body>
+  <header>
+    <h1>Visualizador e Download de Vídeo</h1>
+  </header>
+
   <div id="container"></div>
+
+  <footer>
+    Desenvolvido por Kauam - Sistema de Vídeo Automático
+  </footer>
 
   <script>
     function getParam(param) {
@@ -47,6 +98,8 @@
     const videoUrl = getParam("video");
     const downloadUrl = getParam("download");
 
+    const container = document.getElementById("container");
+
     if (videoUrl) {
       const decodedVideo = decodeURIComponent(videoUrl);
       const decodedDownload = downloadUrl ? decodeURIComponent(downloadUrl) : null;
@@ -54,15 +107,21 @@
       let html = `<iframe src="${decodedVideo}" allowfullscreen></iframe>`;
 
       if (decodedDownload) {
-        html += `<div><a class="download-link" href="${decodedDownload}" target="_blank" download>Baixar Vídeo</a></div>`;
+        html += `
+          <div class="actions">
+            <a class="download-link" href="${decodedDownload}" target="_blank" download>
+              Baixar Vídeo
+            </a>
+          </div>`;
       }
 
-      document.getElementById("container").innerHTML = html;
+      container.innerHTML = html;
     } else {
-      document.getElementById("container").innerHTML = `
+      container.innerHTML = `
         <div class="mensagem">
-          Nenhuma URL de vídeo fornecida.<br>
-          Use: <code>?video=https://...&download=https://...</code>
+          Nenhuma URL de vídeo fornecida.<br><br>
+          Use o formato:<br>
+          <code>?video=https://...&download=https://...</code>
         </div>
       `;
     }
