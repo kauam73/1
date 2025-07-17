@@ -1,53 +1,88 @@
-<!-- autocomplete.html -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Autocomplete API</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Autocomplete API de Animais</title>
+  <style>
+    body {
+      font-family: monospace;
+      background-color: #f0f0f0;
+      color: #333;
+      margin: 20px;
+    }
+    pre {
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      white-space: pre-wrap; /* Garante que o texto quebre linhas */
+    }
+    h1 {
+      color: #0056b3;
+    }
+  </style>
 </head>
 <body>
-<pre id="output">Carregando...</pre>
+  <h1>Resultado da Busca de Animais</h1>
+  <pre id="output">Carregando...</pre>
 
-<script>
-  // Lista de animais
-  const chaves = [
-    "gato", "cachorro", "coelho", "leao", "tigre", "elefante", "girafa", "ursopardo",
-    "golfinho", "baleiaazul", "tubaraobranco", "pinguimimperador", "corujaburaqueira",
-    "aguiaamericana", "cobracoral", "jacarede papoamarelo", "sapocururu", "lagartixadeparede",
-    "formigacortadeira", "abelhaeuropeia", "borboletamonarca", "aranhaviúvanegra", "estreladomar",
-    "polvocomum", "medusajubadeleao", "lulagigante", "caracoldejardim", "minhocacomum",
-    "lombriga", "planaria", "esponjadomar", "macacoprego", "lobocinza", "hipopotamo",
-    "rinocerontebranco", "canguruvermelho", "zebra", "guepardo", "pandagigante", "ornitorrinco",
-    "morcegofruteiro", "camaleao", "iguanaverde", "tartarugamarinhaverde", "peruselvagem", "pavao",
-    "cisnebranco", "louvadeus", "escaravelhorolabosta", "grilodomestico", "lulavampiro",
-    "peixepalhaco", "cavalinho", "tubaraomartelo", "coralcerebro", "peixeboi", "patodomestico",
-    "pombodomestico", "salamandratigre", "axolote", "tatubola", "coala", "diabodatasma",
-    "aguiareal", "gaviaoreal", "picapau"
-  ];
+  <script>
+    // Lista de animais bastante diversificada
+    const chaves = [
+      "gato", "cachorro", "coelho", "leao", "tigre", "elefante", "girafa", "ursopardo",
+      "golfinho", "baleiaazul", "tubaraobranco", "pinguimimperador", "corujaburaqueira",
+      "aguiaamericana", "cobracoral", "jacarede papoamarelo", "sapocururu", "lagartixadeparede",
+      "formigacortadeira", "abelhaeuropeia", "borboletamonarca", "aranhaviúvanegra", "estreladomar",
+      "polvocomum", "medusajubadeleao", "lulagigante", "caracoldejardim", "minhocacomum",
+      "lombriga", "planaria", "esponjadomar", "macacoprego", "lobocinza", "hipopotamo",
+      "rinocerontebranco", "canguruvermelho", "zebra", "guepardo", "pandagigante", "ornitorrinco",
+      "morcegofruteiro", "camaleao", "iguanaverde", "tartarugamarinhaverde", "peruselvagem", "pavao",
+      "cisnebranco", "louvadeus", "escaravelhorolabosta", "grilodomestico", "lulavampiro",
+      "peixepalhaco", "cavalinho", "tubaraomartelo", "coralcerebro", "peixeboi", "patodomestico",
+      "pombodomestico", "salamandratigre", "axolote", "tatubola", "coala", "diabodatasma",
+      "aguiareal", "gaviaoreal", "picapau", "jabuti", "araraazul", "mico-leao-dourado",
+      "anta", "capivara", "oncapintada", "sucuriverde", "piranha", "peixe-boi-marinho",
+      "golfinho-rotador", "boto-cor-de-rosa", "tamandua-bandeira", "sapo-cururu-gigante",
+      "perereca-verde", "cobra-cipó", "caiman", "lagarto-teiú", "geco-leopardo",
+      "camarao", "lagosta", "siricatarro", "ouriçodomar", "anemona", "pepino-do-mar",
+      "coral-mole", "polvo-anel-azul", "lula-de-humboldt", "borboleta-pavão", "vespa",
+      "joaninha", "barata", "lacraia", "centopeia", "escorpiao", "carrapato",
+      "aranha-caranguejeira", "esponja-do-mar-vaso", "medusa-caixa", "estreladomar-coroadeespinhos",
+      "ouriço-do-mar-diadema", "peixe-leao", "cavalo-marinho-dragao", "tubarao-baleia",
+      "raia-manta", "foca", "leao-marinho", "morsa", "pinguim-rei", "albatroz",
+      "condor-andino", "avestruz", "emus", "kiwi", "cacatua", "papagaio",
+      "tucano", "pica-pau-rei", "sapo-flecha-venenosa", "rã-touro", "iguana-do-deserto",
+      "crocodilo-do-nilo", "gavial", "camaleao-pantera", "cobra-rei", "bicho-pau",
+      "louva-a-deus-flor", "besouro-rinoceronte", "formiga-correicao", "cupim", "pulga",
+      "mosquito", "mosca", "libelula", "grilo-da-areia", "caramujo-gigante-africano",
+      "sanguessuga", "lesma", "aranha-armadeira", "borboleta-atlas", "mariposa-falcão",
+      "peixe-agulha", "moreia", "caranguejo-ferradura", "estrela-do-mar-sol", "nautilus"
+    ];
 
-  // Normalizador básico (remove acentos e espaços)
-  const normalizar = str => str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s/g, "").toLowerCase();
+    // Normalizador básico (remove acentos, espaços e converte para minúsculas)
+    const normalizar = str => str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s/g, "").toLowerCase();
 
-  // Pega a query 'a'
-  const params = new URLSearchParams(location.search);
-  const query = normalizar(params.get("a") || "");
+    // Pega a query 'a' da URL
+    const params = new URLSearchParams(location.search);
+    const query = normalizar(params.get("a") || "");
 
-  let resultado;
+    let resultado;
 
-  if (!query) {
-    resultado = { erro: "Parâmetro 'a' está vazio. Use ?a=prefixo ou ?a=* para tudo." };
-  } else if (query === "*") {
-    resultado = chaves;
-  } else {
-    const chavesNormalizadas = chaves.map(normalizar);
-    resultado = chaves.filter((item, i) => chavesNormalizadas[i].startsWith(query));
-    if (resultado.length === 0) {
-      resultado = { mensagem: `Nenhum animal encontrado começando com "${params.get("a")}".` };
+    if (!query) {
+      resultado = { erro: "Parâmetro 'a' está vazio. Use ?a=prefixo ou ?a=* para listar tudo." };
+    } else if (query === "*") {
+      resultado = chaves;
+    } else {
+      const chavesNormalizadas = chaves.map(normalizar);
+      resultado = chaves.filter((item, i) => chavesNormalizadas[i].startsWith(query));
+      if (resultado.length === 0) {
+        resultado = { mensagem: `Nenhum animal encontrado começando com "${params.get("a")}".` };
+      }
     }
-  }
 
-  // Mostrar JSON puro
-  document.body.innerHTML = `<pre>${JSON.stringify(resultado, null, 2)}</pre>`;
-</script>
+    // Mostrar JSON puro no elemento <pre>
+    document.getElementById("output").textContent = JSON.stringify(resultado, null, 2);
+  </script>
 </body>
 </html>
