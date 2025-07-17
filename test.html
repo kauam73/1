@@ -1,347 +1,377 @@
-<!-- info.htm -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>API Local</title>
+  <title>API Local de Animais</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    h1 {
+      color: #0056b3;
+    }
+    pre {
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      overflow-x: auto; /* Para rolagem horizontal se o conteúdo for muito largo */
+    }
+    .info-text {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #e7f3ff;
+      border-left: 5px solid #0056b3;
+      color: #0056b3;
+    }
+  </style>
 </head>
 <body>
-<pre id="output">Carregando...</pre>
+  <h1>Dados dos Animais</h1>
+  <div class="info-text">
+    Para buscar um animal específico, adicione `?q=nomeDoAnimal` na URL.<br>
+    Exemplo: `info.htm?q=gato`<br>
+    Para ver todos, use `info.htm?q=all` ou apenas `info.htm`.
+  </div>
+  <pre id="output">Carregando...</pre>
 
 <script>
   // Banco de dados "fake"
-const dados = {
-  gato: {
-    nome: "Gato Doméstico",
-    especie: "Felis catus",
-    curiosidade: "Gatos têm 32 músculos em cada orelha, permitindo-lhes girar suas orelhas 180 graus.",
-  },
-  cachorro: {
-    nome: "Cachorro",
-    especie: "Canis lupus familiaris",
-    curiosidade: "Cachorros suam principalmente pelas almofadas das patas para se refrescar, além de ofegar.",
-  },
-  coelho: {
-    nome: "Coelho",
-    especie: "Oryctolagus cuniculus",
-    curiosidade: "Coelhos têm um campo de visão de quase 360 graus, o que os ajuda a detectar predadores.",
-  },
-  leao: {
-    nome: "Leão",
-    especie: "Panthera leo",
-    curiosidade: "O rugido de um leão pode ser ouvido a até 8 quilômetros de distância.",
-  },
-  tigre: {
-    nome: "Tigre",
-    especie: "Panthera tigris",
-    curiosidade: "As listras de um tigre são únicas para cada indivíduo, como impressões digitais humanas.",
-  },
-  elefante: {
-    nome: "Elefante Africano",
-    especie: "Loxodonta africana",
-    curiosidade: "Elefantes são os maiores mamíferos terrestres e podem viver até 70 anos.",
-  },
-  girafa: {
-    nome: "Girafa",
-    especie: "Giraffa camelopardalis",
-    curiosidade: "A girafa é o animal terrestre mais alto, e sua língua pode medir até 45 cm.",
-  },
-  ursoPardo: {
-    nome: "Urso Pardo",
-    especie: "Ursus arctos",
-    curiosidade: "Ursos pardos são onívoros e podem correr tão rápido quanto um cavalo.",
-  },
-  golfinho: {
-    nome: "Golfinho Roaz",
-    especie: "Tursiops truncatus",
-    curiosidade: "Golfinhos são altamente inteligentes e usam ecolocalização para navegar e caçar.",
-  },
-  baleiaAzul: {
-    nome: "Baleia Azul",
-    especie: "Balaenoptera musculus",
-    curiosidade: "A baleia azul é o maior animal da Terra, podendo atingir mais de 30 metros de comprimento.",
-  },
-  tubaraoBranco: {
-    nome: "Tubarão Branco",
-    especie: "Carcharodon carcharias",
-    curiosidade: "Tubarões brancos podem perder e repor milhares de dentes ao longo de suas vidas.",
-  },
-  pinguimImperador: {
-    nome: "Pinguim Imperador",
-    especie: "Aptenodytes forsteri",
-    curiosidade: "Pinguins-imperador podem mergulhar mais fundo e permanecer submersos por mais tempo do que qualquer outra ave.",
-  },
-  corujaBuraqueira: {
-    nome: "Coruja Buraqueira",
-    especie: "Athene cunicularia",
-    curiosidade: "Corujas buraqueiras vivem em tocas subterrâneas, muitas vezes escavadas por outros animais.",
-  },
-  aguiaAmericana: {
-    nome: "Águia Americana (Careca)",
-    especie: "Haliaeetus leucocephalus",
-    curiosidade: "A águia americana pode atingir velocidades de até 160 km/h em mergulho.",
-  },
-  cobraCoral: {
-    nome: "Cobra Coral (Verdadeira)",
-    especie: "Micrurus corallinus",
-    curiosidade: "As cores vibrantes da cobra coral servem como um aviso para predadores sobre sua toxicidade.",
-  },
-  jacareDePapoAmarelo: {
-    nome: "Jacaré-de-Papo-Amarelo",
-    especie: "Caiman latirostris",
-    curiosidade: "Jacarés têm uma das mordidas mais fortes do reino animal, exercendo uma pressão incrível.",
-  },
-  sapoCururu: {
-    nome: "Sapo Cururu",
-    especie: "Rhinella marina",
-    curiosidade: "Sapinhos cururu possuem glândulas de veneno atrás dos olhos que liberam toxinas quando ameaçados.",
-  },
-  lagartixaDeParede: {
-    nome: "Lagartixa-de-Parede",
-    especie: "Tarentola mauritanica",
-    curiosidade: "As almofadas dos dedos das lagartixas permitem que elas se prendam a quase qualquer superfície.",
-  },
-  formigaCortadeira: {
-    nome: "Formiga Cortadeira",
-    especie: "Atta sexdens",
-    curiosidade: "Formigas cortadeiras cultivam fungos a partir das folhas que coletam, que servem como seu alimento principal.",
-  },
-  abelhaEuropeia: {
-    nome: "Abelha Europeia",
-    especie: "Apis mellifera",
-    curiosidade: "Uma única abelha é responsável por cerca de 1/12 de uma colher de chá de mel em sua vida.",
-  },
-  borboletaMonarca: {
-    nome: "Borboleta Monarca",
-    especie: "Danaus plexippus",
-    curiosidade: "Borboletas monarcas realizam uma migração anual impressionante de milhares de quilômetros.",
-  },
-  aranhaViúvaNegra: {
-    nome: "Aranha Viúva Negra",
-    especie: "Latrodectus mactans",
-    curiosidade: "A picada da viúva negra, embora dolorosa, raramente é fatal para humanos adultos saudáveis.",
-  },
-  estrelaDoMar: {
-    nome: "Estrela-do-Mar Comum",
-    especie: "Asterias rubens",
-    curiosidade: "Estrelas-do-mar podem regenerar seus braços perdidos e, em alguns casos, um novo corpo a partir de um único braço.",
-  },
-  polvoComum: {
-    nome: "Polvo Comum",
-    especie: "Octopus vulgaris",
-    curiosidade: "Polvos são extremamente inteligentes, capazes de resolver problemas e até usar ferramentas.",
-  },
-  medusaJubaDeLeao: {
-    nome: "Medusa Juba de Leão",
-    especie: "Cyanea capillata",
-    curiosidade: "É a maior espécie de medusa conhecida, com tentáculos que podem se estender por mais de 30 metros.",
-  },
-  lulaGigante: {
-    nome: "Lula Gigante",
-    especie: "Architeuthis dux",
-    curiosidade: "A lula gigante possui os maiores olhos do reino animal, medindo até 27 cm de diâmetro.",
-  },
-  caracolDeJardim: {
-    nome: "Caracol de Jardim",
-    especie: "Cornu aspersum",
-    curiosidade: "Caracóis se movem usando uma onda de contrações musculares em seu pé, deixando um rastro de muco.",
-  },
-  minhocaComum: {
-    nome: "Minhoca Comum",
-    especie: "Lumbricus terrestris",
-    curiosidade: "Minhocas são hermafroditas e desempenham um papel crucial na aeração e fertilização do solo.",
-  },
-  lombriga: {
-    nome: "Lombriga (Ascaris lumbricoides)",
-    especie: "Ascaris lumbricoides",
-    curiosidade: "É um parasita intestinal humano comum que pode crescer até 35 cm de comprimento.",
-  },
-  planaria: {
-    nome: "Planária",
-    especie: "Dugesia tigrina",
-    curiosidade: "Planárias têm uma capacidade notável de regeneração; se cortadas, cada pedaço pode se tornar um novo indivíduo.",
-  },
-  esponjaDoMar: {
-    nome: "Esponja-do-Mar (Calcária)",
-    especie: "Sycon ciliatum",
-    curiosidade: "Esponjas são os animais multicelulares mais simples e não possuem órgãos ou tecidos verdadeiros.",
-  },
-  macacoPrego: {
-    nome: "Macaco-Prego",
-    especie: "Sapajus apella",
-    curiosidade: "Macacos-prego são conhecidos por usar ferramentas, como pedras para quebrar nozes.",
-  },
-  loboCinza: {
-    nome: "Lobo Cinzento",
-    especie: "Canis lupus",
-    curiosidade: "Lobos cinzentos vivem em matilhas com uma hierarquia social complexa e caçam em grupo.",
-  },
-  hipopotamo: {
-    nome: "Hipopótamo",
-    especie: "Hippopotamus amphibius",
-    curiosidade: "Apesar de seu tamanho, hipopótamos são excelentes nadadores e podem prender a respiração por até 5 minutos.",
-  },
-  rinoceronteBranco: {
-    nome: "Rinoceronte Branco",
-    especie: "Ceratotherium simum",
-    curiosidade: "O rinoceronte branco tem dois chifres e é o maior dos rinocerontes, apesar do nome, sua cor é cinza.",
-  },
-  canguruVermelho: {
-    nome: "Canguru Vermelho",
-    especie: "Osphranter rufus",
-    curiosidade: "É o maior marsupial e pode pular distâncias de até 9 metros em um único salto.",
-  },
-  zebra: {
-    nome: "Zebra",
-    especie: "Equus quagga",
-    curiosidade: "As listras de cada zebra são únicas, como as impressões digitais, e as ajudam a se camuflar de predadores.",
-  },
-  guepardo: {
-    nome: "Guepardo",
-    especie: "Acinonyx jubatus",
-    curiosidade: "Guepardos são os animais terrestres mais rápidos, atingindo velocidades de até 120 km/h em curtas distâncias.",
-  },
-  pandaGigante: {
-    nome: "Panda-Gigante",
-    especie: "Ailuropoda melanoleuca",
-    curiosidade: "Pandas-gigantes se alimentam quase que exclusivamente de bambu, comendo até 12 horas por dia.",
-  },
-  ornitorrinco: {
-    nome: "Ornitorrinco",
-    especie: "Ornithorhynchus anatinus",
-    curiosidade: "O ornitorrinco é um dos poucos mamíferos que põem ovos e possui um bico sensível para detectar presas.",
-  },
-  morcegoFruteiro: {
-    nome: "Morcego-Fruteiro",
-    especie: "Pteropus vampyrus",
-    curiosidade: "Morcegos-fruteiros, também conhecidos como raposas-voadoras, se alimentam de frutas e néctar.",
-  },
-  camaleao: {
-    nome: "Camaleão Comum",
-    especie: "Chamaeleo chamaeleon",
-    curiosidade: "Camaleões podem mudar a cor de sua pele não apenas para camuflagem, mas também para expressar emoções e se comunicar.",
-  },
-  iguanaVerde: {
-    nome: "Iguana-Verde",
-    especie: "Iguana iguana",
-    curiosidade: "Iguanas-verdes são répteis herbívoros que podem viver até 20 anos em cativeiro.",
-  },
-  tartarugaMarinhaVerde: {
-    nome: "Tartaruga-Marinha-Verde",
-    especie: "Chelonia mydas",
-    curiosidade: "Tartarugas-marinhas-verdes são majoritariamente herbívoras na fase adulta e podem migrar longas distâncias para se reproduzir.",
-  },
-  peruSelvagem: {
-    nome: "Peru-Selvagem",
-    especie: "Meleagris gallopavo",
-    curiosidade: "Perus-selvagens podem voar em curtas distâncias, apesar de sua aparência pesada.",
-  },
-  pavão: {
-    nome: "Pavão-Azul",
-    especie: "Pavo cristatus",
-    curiosidade: "O pavão macho é famoso por sua exuberante cauda de penas que ele usa em rituais de acasalamento.",
-  },
-  cisneBranco: {
-    nome: "Cisne-Branco",
-    especie: "Cygnus olor",
-    curiosidade: "Cisnes formam pares monogâmicos por toda a vida e seus ninhos podem ser bem grandes.",
-  },
-  louvaDeus: {
-    nome: "Louva-a-Deus",
-    especie: "Mantis religiosa",
-    curiosidade: "Louva-a-Deus são predadores eficazes e podem girar a cabeça em 180 graus para observar suas presas.",
-  },
-  escaravelhoRolaBosta: {
-    nome: "Escaravelho Rola-Bosta",
-    especie: "Scarabaeus sacer",
-    curiosidade: "Esses besouros são famosos por rolar e enterrar bolas de esterco, que servem de alimento e local para depositar ovos.",
-  },
-  griloDomestico: {
-    nome: "Grilo Doméstico",
-    especie: "Acheta domesticus",
-    curiosidade: "Grilos produzem seu canto característico esfregando uma asa na outra para atrair parceiras.",
-  },
-  lulaVampiro: {
-    nome: "Lula-Vampiro",
-    especie: "Vampyroteuthis infernalis",
-    curiosidade: "Vive em águas profundas e pode se virar 'do avesso' para se defender, revelando espinhos.",
-  },
-  peixePalhaco: {
-    nome: "Peixe-Palhaço",
-    especie: "Amphiprion ocellaris",
-    curiosidade: "Peixes-palhaço vivem em simbiose com anêmonas-do-mar, sendo imunes ao seu veneno e encontrando proteção nelas.",
-  },
-  cavaloMarinho: {
-    nome: "Cavalo-Marinho",
-    especie: "Hippocampus hippocampus",
-    curiosidade: "É o macho que carrega e incuba os ovos em uma bolsa especializada até o nascimento dos filhotes.",
-  },
-  tubaraoMartelo: {
-    nome: "Tubarão-Martelo",
-    especie: "Sphyrna mokarran",
-    curiosidade: "A forma incomum da cabeça do tubarão-martelo ajuda a aumentar seu campo de visão e a encontrar presas.",
-  },
-  coralCerebro: {
-    nome: "Coral Cérebro",
-    especie: "Diploria labyrinthiformis",
-    curiosidade: "Recebe esse nome por sua forma que lembra um cérebro, e é um importante construtor de recifes de coral.",
-  },
-  peixeBoi: {
-    nome: "Peixe-Boi-Marinho",
-    especie: "Trichechus manatus",
-    curiosidade: "Peixes-boi são mamíferos aquáticos herbívoros e podem viver tanto em água doce quanto salgada.",
-  },
-  patoDomestico: {
-    nome: "Pato Doméstico",
-    especie: "Anas platyrhynchos domesticus",
-    curiosidade: "Patos são aves aquáticas com penas impermeáveis, que os ajudam a flutuar e se manter secos.",
-  },
-  pomboDomestico: {
-    nome: "Pombo Doméstico",
-    especie: "Columba livia domestica",
-    curiosidade: "Pombos são conhecidos por sua capacidade de navegação e foram usados como mensageiros ao longo da história.",
-  },
-  salamandraTigre: {
-    nome: "Salamandra-Tigre",
-    especie: "Ambystoma tigrinum",
-    curiosidade: "Salamandras-tigre são anfíbios que passam parte da vida na água e parte em terra, e podem regenerar membros perdidos.",
-  },
-  axolote: {
-    nome: "Axolote",
-    especie: "Ambystoma mexicanum",
-    curiosidade: "O axolote é uma salamandra que retém suas características larvais (como brânquias externas) na fase adulta, em um fenômeno chamado neotenia.",
-  },
-  tatuBola: {
-    nome: "Tatu-Bola",
-    especie: "Tolypeutes tricinctus",
-    curiosidade: "O tatu-bola é capaz de se enrolar completamente em uma esfera perfeita quando ameaçado.",
-  },
-  coala: {
-    nome: "Coala",
-    especie: "Phascolarctos cinereus",
-    curiosidade: "Coalas se alimentam quase exclusivamente de folhas de eucalipto, passando a maior parte do dia dormindo para economizar energia.",
-  },
-  diaboDaTasmania: {
-    nome: "Diabo da Tasmânia",
-    especie: "Sarcophilus harrisii",
-    curiosidade: "É o maior marsupial carnívoro vivo e conhecido por seu temperamento feroz e vocalizações ruidosas.",
-  },
-  aguiaReal: {
-    nome: "Águia-Real",
-    especie: "Aquila chrysaetos",
-    curiosidade: "A águia-real é uma das maiores aves de rapina do mundo, com uma envergadura de asas que pode chegar a mais de 2 metros.",
-  },
-  gavião: {
-    nome: "Gavião-Real",
-    especie: "Harpia harpyja",
-    curiosidade: "O gavião-real é a maior águia das Américas e uma das mais poderosas do mundo, capaz de caçar animais grandes.",
-  },
-  picaPau: {
-    nome: "Pica-Pau",
-    especie: "Dendrocopos major",
-    curiosidade: "Pica-paus têm uma língua comprida e pegajosa, além de um crânio especializado para absorver o impacto de bicar árvores.",
-  }
-};
+  const dados = {
+    gato: {
+      nome: "Gato Doméstico",
+      especie: "Felis catus",
+      curiosidade: "Gatos têm 32 músculos em cada orelha, permitindo-lhes girar suas orelhas 180 graus.",
+    },
+    cachorro: {
+      nome: "Cachorro",
+      especie: "Canis lupus familiaris",
+      curiosidade: "Cachorros suam principalmente pelas almofadas das patas para se refrescar, além de ofegar.",
+    },
+    coelho: {
+      nome: "Coelho",
+      especie: "Oryctolagus cuniculus",
+      curiosidade: "Coelhos têm um campo de visão de quase 360 graus, o que os ajuda a detectar predadores.",
+    },
+    leao: {
+      nome: "Leão",
+      especie: "Panthera leo",
+      curiosidade: "O rugido de um leão pode ser ouvido a até 8 quilômetros de distância.",
+    },
+    tigre: {
+      nome: "Tigre",
+      especie: "Panthera tigris",
+      curiosidade: "As listras de um tigre são únicas para cada indivíduo, como impressões digitais humanas.",
+    },
+    elefante: {
+      nome: "Elefante Africano",
+      especie: "Loxodonta africana",
+      curiosidade: "Elefantes são os maiores mamíferos terrestres e podem viver até 70 anos.",
+    },
+    girafa: {
+      nome: "Girafa",
+      especie: "Giraffa camelopardalis",
+      curiosidade: "A girafa é o animal terrestre mais alto, e sua língua pode medir até 45 cm.",
+    },
+    ursoPardo: {
+      nome: "Urso Pardo",
+      especie: "Ursus arctos",
+      curiosidade: "Ursos pardos são onívoros e podem correr tão rápido quanto um cavalo.",
+    },
+    golfinho: {
+      nome: "Golfinho Roaz",
+      especie: "Tursiops truncatus",
+      curiosidade: "Golfinhos são altamente inteligentes e usam ecolocalização para navegar e caçar.",
+    },
+    baleiaAzul: {
+      nome: "Baleia Azul",
+      especie: "Balaenoptera musculus",
+      curiosidade: "A baleia azul é o maior animal da Terra, podendo atingir mais de 30 metros de comprimento.",
+    },
+    tubaraoBranco: {
+      nome: "Tubarão Branco",
+      especie: "Carcharodon carcharias",
+      curiosidade: "Tubarões brancos podem perder e repor milhares de dentes ao longo de suas vidas.",
+    },
+    pinguimImperador: {
+      nome: "Pinguim Imperador",
+      especie: "Aptenodytes forsteri",
+      curiosidade: "Pinguins-imperador podem mergulhar mais fundo e permanecer submersos por mais tempo do que qualquer outra ave.",
+    },
+    corujaBuraqueira: {
+      nome: "Coruja Buraqueira",
+      especie: "Athene cunicularia",
+      curiosidade: "Corujas buraqueiras vivem em tocas subterrâneas, muitas vezes escavadas por outros animais.",
+    },
+    aguiaAmericana: {
+      nome: "Águia Americana (Careca)",
+      especie: "Haliaeetus leucocephalus",
+      curiosidade: "A águia americana pode atingir velocidades de até 160 km/h em mergulho.",
+    },
+    cobraCoral: {
+      nome: "Cobra Coral (Verdadeira)",
+      especie: "Micrurus corallinus",
+      curiosidade: "As cores vibrantes da cobra coral servem como um aviso para predadores sobre sua toxicidade.",
+    },
+    jacareDePapoAmarelo: {
+      nome: "Jacaré-de-Papo-Amarelo",
+      especie: "Caiman latirostris",
+      curiosidade: "Jacarés têm uma das mordidas mais fortes do reino animal, exercendo uma pressão incrível.",
+    },
+    sapoCururu: {
+      nome: "Sapo Cururu",
+      especie: "Rhinella marina",
+      curiosidade: "Sapinhos cururu possuem glândulas de veneno atrás dos olhos que liberam toxinas quando ameaçados.",
+    },
+    lagartixaDeParede: {
+      nome: "Lagartixa-de-Parede",
+      especie: "Tarentola mauritanica",
+      curiosidade: "As almofadas dos dedos das lagartixas permitem que elas se prendam a quase qualquer superfície.",
+    },
+    formigaCortadeira: {
+      nome: "Formiga Cortadeira",
+      especie: "Atta sexdens",
+      curiosidade: "Formigas cortadeiras cultivam fungos a partir das folhas que coletam, que servem como seu alimento principal.",
+    },
+    abelhaEuropeia: {
+      nome: "Abelha Europeia",
+      especie: "Apis mellifera",
+      curiosidade: "Uma única abelha é responsável por cerca de 1/12 de uma colher de chá de mel em sua vida.",
+    },
+    borboletaMonarca: {
+      nome: "Borboleta Monarca",
+      especie: "Danaus plexippus",
+      curiosidade: "Borboletas monarcas realizam uma migração anual impressionante de milhares de quilômetros.",
+    },
+    aranhaViúvaNegra: {
+      nome: "Aranha Viúva Negra",
+      especie: "Latrodectus mactans",
+      curiosidade: "A picada da viúva negra, embora dolorosa, raramente é fatal para humanos adultos saudáveis.",
+    },
+    estrelaDoMar: {
+      nome: "Estrela-do-Mar Comum",
+      especie: "Asterias rubens",
+      curiosidade: "Estrelas-do-mar podem regenerar seus braços perdidos e, em alguns casos, um novo corpo a partir de um único braço.",
+    },
+    polvoComum: {
+      nome: "Polvo Comum",
+      especie: "Octopus vulgaris",
+      curiosidade: "Polvos são extremamente inteligentes, capazes de resolver problemas e até usar ferramentas.",
+    },
+    medusaJubaDeLeao: {
+      nome: "Medusa Juba de Leão",
+      especie: "Cyanea capillata",
+      curiosidade: "É a maior espécie de medusa conhecida, com tentáculos que podem se estender por mais de 30 metros.",
+    },
+    lulaGigante: {
+      nome: "Lula Gigante",
+      especie: "Architeuthis dux",
+      curiosidade: "A lula gigante possui os maiores olhos do reino animal, medindo até 27 cm de diâmetro.",
+    },
+    caracolDeJardim: {
+      nome: "Caracol de Jardim",
+      especie: "Cornu aspersum",
+      curiosidade: "Caracóis se movem usando uma onda de contrações musculares em seu pé, deixando um rastro de muco.",
+    },
+    minhocaComum: {
+      nome: "Minhoca Comum",
+      especie: "Lumbricus terrestris",
+      curiosidade: "Minhocas são hermafroditas e desempenham um papel crucial na aeração e fertilização do solo.",
+    },
+    lombriga: {
+      nome: "Lombriga (Ascaris lumbricoides)",
+      especie: "Ascaris lumbricoides",
+      curiosidade: "É um parasita intestinal humano comum que pode crescer até 35 cm de comprimento.",
+    },
+    planaria: {
+      nome: "Planária",
+      especie: "Dugesia tigrina",
+      curiosidade: "Planárias têm uma capacidade notável de regeneração; se cortadas, cada pedaço pode se tornar um novo indivíduo.",
+    },
+    esponjaDoMar: {
+      nome: "Esponja-do-Mar (Calcária)",
+      especie: "Sycon ciliatum",
+      curiosidade: "Esponjas são os animais multicelulares mais simples e não possuem órgãos ou tecidos verdadeiros.",
+    },
+    macacoPrego: {
+      nome: "Macaco-Prego",
+      especie: "Sapajus apella",
+      curiosidade: "Macacos-prego são conhecidos por usar ferramentas, como pedras para quebrar nozes.",
+    },
+    loboCinza: {
+      nome: "Lobo Cinzento",
+      especie: "Canis lupus",
+      curiosidade: "Lobos cinzentos vivem em matilhas com uma hierarquia social complexa e caçam em grupo.",
+    },
+    hipopotamo: {
+      nome: "Hipopótamo",
+      especie: "Hippopotamus amphibius",
+      curiosidade: "Apesar de seu tamanho, hipopótamos são excelentes nadadores e podem prender a respiração por até 5 minutos.",
+    },
+    rinoceronteBranco: {
+      nome: "Rinoceronte Branco",
+      especie: "Ceratotherium simum",
+      curiosidade: "O rinoceronte branco tem dois chifres e é o maior dos rinocerontes, apesar do nome, sua cor é cinza.",
+    },
+    canguruVermelho: {
+      nome: "Canguru Vermelho",
+      especie: "Osphranter rufus",
+      curiosidade: "É o maior marsupial e pode pular distâncias de até 9 metros em um único salto.",
+    },
+    zebra: {
+      nome: "Zebra",
+      especie: "Equus quagga",
+      curiosidade: "As listras de cada zebra são únicas, como as impressões digitais, e as ajudam a se camuflar de predadores.",
+    },
+    guepardo: {
+      nome: "Guepardo",
+      especie: "Acinonyx jubatus",
+      curiosidade: "Guepardos são os animais terrestres mais rápidos, atingindo velocidades de até 120 km/h em curtas distâncias.",
+    },
+    pandaGigante: {
+      nome: "Panda-Gigante",
+      especie: "Ailuropoda melanoleuca",
+      curiosidade: "Pandas-gigantes se alimentam quase que exclusivamente de bambu, comendo até 12 horas por dia.",
+    },
+    ornitorrinco: {
+      nome: "Ornitorrinco",
+      especie: "Ornithorhynchus anatinus",
+      curiosidade: "O ornitorrinco é um dos poucos mamíferos que põem ovos e possui um bico sensível para detectar presas.",
+    },
+    morcegoFruteiro: {
+      nome: "Morcego-Fruteiro",
+      especie: "Pteropus vampyrus",
+      curiosidade: "Morcegos-fruteiros, também conhecidos como raposas-voadoras, se alimentam de frutas e néctar.",
+    },
+    camaleao: {
+      nome: "Camaleão Comum",
+      especie: "Chamaeleo chamaeleon",
+      curiosidade: "Camaleões podem mudar a cor de sua pele não apenas para camuflagem, mas também para expressar emoções e se comunicar.",
+    },
+    iguanaVerde: {
+      nome: "Iguana-Verde",
+      especie: "Iguana iguana",
+      curiosidade: "Iguanas-verdes são répteis herbívoros que podem viver até 20 anos em cativeiro.",
+    },
+    tartarugaMarinhaVerde: {
+      nome: "Tartaruga-Marinha-Verde",
+      especie: "Chelonia mydas",
+      curiosidade: "Tartarugas-marinhas-verdes são majoritariamente herbívoras na fase adulta e podem migrar longas distâncias para se reproduzir.",
+    },
+    peruSelvagem: {
+      nome: "Peru-Selvagem",
+      especie: "Meleagris gallopavo",
+      curiosidade: "Perus-selvagens podem voar em curtas distâncias, apesar de sua aparência pesada.",
+    },
+    pavão: {
+      nome: "Pavão-Azul",
+      especie: "Pavo cristatus",
+      curiosidade: "O pavão macho é famoso por sua exuberante cauda de penas que ele usa em rituais de acasalamento.",
+    },
+    cisneBranco: {
+      nome: "Cisne-Branco",
+      especie: "Cygnus olor",
+      curiosidade: "Cisnes formam pares monogâmicos por toda a vida e seus ninhos podem ser bem grandes.",
+    },
+    louvaDeus: {
+      nome: "Louva-a-Deus",
+      especie: "Mantis religiosa",
+      curiosidade: "Louva-a-Deus são predadores eficazes e podem girar a cabeça em 180 graus para observar suas presas.",
+    },
+    escaravelhoRolaBosta: {
+      nome: "Escaravelho Rola-Bosta",
+      especie: "Scarabaeus sacer",
+      curiosidade: "Esses besouros são famosos por rolar e enterrar bolas de esterco, que servem de alimento e local para depositar ovos.",
+    },
+    griloDomestico: {
+      nome: "Grilo Doméstico",
+      especie: "Acheta domesticus",
+      curiosidade: "Grilos produzem seu canto característico esfregando uma asa na outra para atrair parceiras.",
+    },
+    lulaVampiro: {
+      nome: "Lula-Vampiro",
+      especie: "Vampyroteuthis infernalis",
+      curiosidade: "Vive em águas profundas e pode se virar 'do avesso' para se defender, revelando espinhos.",
+    },
+    peixePalhaco: {
+      nome: "Peixe-Palhaço",
+      especie: "Amphiprion ocellaris",
+      curiosidade: "Peixes-palhaço vivem em simbiose com anêmonas-do-mar, sendo imunes ao seu veneno e encontrando proteção nelas.",
+    },
+    cavaloMarinho: {
+      nome: "Cavalo-Marinho",
+      especie: "Hippocampus hippocampus",
+      curiosidade: "É o macho que carrega e incuba os ovos em uma bolsa especializada até o nascimento dos filhotes.",
+    },
+    tubaraoMartelo: {
+      nome: "Tubarão-Martelo",
+      especie: "Sphyrna mokarran",
+      curiosidade: "A forma incomum da cabeça do tubarão-martelo ajuda a aumentar seu campo de visão e a encontrar presas.",
+    },
+    coralCerebro: {
+      nome: "Coral Cérebro",
+      especie: "Diploria labyrinthiformis",
+      curiosidade: "Recebe esse nome por sua forma que lembra um cérebro, e é um importante construtor de recifes de coral.",
+    },
+    peixeBoi: {
+      nome: "Peixe-Boi-Marinho",
+      especie: "Trichechus manatus",
+      curiosidade: "Peixes-boi são mamíferos aquáticos herbívoros e podem viver tanto em água doce quanto salgada.",
+    },
+    patoDomestico: {
+      nome: "Pato Doméstico",
+      especie: "Anas platyrhynchos domesticus",
+      curiosidade: "Patos são aves aquáticas com penas impermeáveis, que os ajudam a flutuar e se manter secos.",
+    },
+    pomboDomestico: {
+      nome: "Pombo Doméstico",
+      especie: "Columba livia domestica",
+      curiosidade: "Pombos são conhecidos por sua capacidade de navegação e foram usados como mensageiros ao longo da história.",
+    },
+    salamandraTigre: {
+      nome: "Salamandra-Tigre",
+      especie: "Ambystoma tigrinum",
+      curiosidade: "Salamandras-tigre são anfíbios que passam parte da vida na água e parte em terra, e podem regenerar membros perdidos.",
+    },
+    axolote: {
+      nome: "Axolote",
+      especie: "Ambystoma mexicanum",
+      curiosidade: "O axolote é uma salamandra que retém suas características larvais (como brânquias externas) na fase adulta, em um fenômeno chamado neotenia.",
+    },
+    tatuBola: {
+      nome: "Tatu-Bola",
+      especie: "Tolypeutes tricinctus",
+      curiosidade: "O tatu-bola é capaz de se enrolar completamente em uma esfera perfeita quando ameaçado.",
+    },
+    coala: {
+      nome: "Coala",
+      especie: "Phascolarctos cinereus",
+      curiosidade: "Coalas se alimentam quase exclusivamente de folhas de eucalipto, passando a maior parte do dia dormindo para economizar energia.",
+    },
+    diaboDaTasmania: {
+      nome: "Diabo da Tasmânia",
+      especie: "Sarcophilus harrisii",
+      curiosidade: "É o maior marsupial carnívoro vivo e conhecido por seu temperamento feroz e vocalizações ruidosas.",
+    },
+    aguiaReal: {
+      nome: "Águia-Real",
+      especie: "Aquila chrysaetos",
+      curiosidade: "A águia-real é uma das maiores aves de rapina do mundo, com uma envergadura de asas que pode chegar a mais de 2 metros.",
+    },
+    gavião: {
+      nome: "Gavião-Real",
+      especie: "Harpia harpyja",
+      curiosidade: "O gavião-real é a maior águia das Américas e uma das mais poderosas do mundo, capaz de caçar animais grandes.",
+    },
+    picaPau: {
+      nome: "Pica-Pau",
+      especie: "Dendrocopos major",
+      curiosidade: "Pica-paus têm uma língua comprida e pegajosa, além de um crânio especializado para absorver o impacto de bicar árvores.",
+    }
+  };
 
 
   // Pegando a query string
@@ -349,7 +379,10 @@ const dados = {
   const q = params.get("q")?.toLowerCase();
 
   // Resultado baseado na query
-  const result = (q === "all" || !q) ? dados : (dados[q] || { erro: "Item não encontrado" });
+  // Verifica se 'q' é 'all' ou está vazio. Se sim, retorna todos os 'dados'.
+  // Caso contrário, tenta encontrar a chave correspondente em 'dados'.
+  // Se a chave não existir, retorna um objeto de erro.
+  const result = (q === "all" || !q) ? dados : (dados[q] || { erro: "Animal não encontrado ou a chave está incorreta. Tente usar letras minúsculas e sem espaços/acentos. Ex: 'gato', 'leao', 'tubaraobranco'." });
 
   // Exibir JSON como texto formatado
   document.getElementById("output").textContent = JSON.stringify(result, null, 2);
