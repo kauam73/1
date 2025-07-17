@@ -1,14 +1,41 @@
+<!-- info.htm -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Imagem por parâmetro</title>
+  <title>API Local</title>
 </head>
 <body>
-  <h1>Resultado:</h1>
-  <img id="imagem" src="" alt="Imagem será carregada aqui" width="300">
-  <p id="msg"></p>
+<pre id="output">Carregando...</pre>
 
-  <script src="script.js"></script>
+<script>
+  // Banco de dados "fake"
+  const dados = {
+    gato: {
+      nome: "Gato Doméstico",
+      especie: "Felis catus",
+      curiosidade: "Gatos têm 32 músculos em cada orelha.",
+    },
+    cachorro: {
+      nome: "Cachorro",
+      especie: "Canis lupus familiaris",
+      curiosidade: "Cachorros suam pelas patas.",
+    },
+    coelho: {
+      nome: "Coelho",
+      especie: "Oryctolagus cuniculus",
+      curiosidade: "Coelhos enxergam quase 360 graus.",
+    }
+  };
+
+  // Pegando a query string
+  const params = new URLSearchParams(location.search);
+  const q = params.get("q")?.toLowerCase();
+
+  const result = dados[q] || { erro: "Item não encontrado" };
+
+  // Exibir JSON como texto formatado
+  document.getElementById("output").textContent = JSON.stringify(result, null, 2);
+</script>
 </body>
 </html>
